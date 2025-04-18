@@ -1,0 +1,86 @@
+.flightcard {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 8px;
+    background-color: #fff;
+
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+}
+.flightcard__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+.flightcard__flight-name {
+    font-weight: 700;
+    font-size: 18px;
+}
+.flightcard__flight-direction {
+    color: #6B7280;
+}
+.flightcard__flight-status {
+    font-size: 12px;
+    font-weight: 500;
+    color: #166534;
+    background: #DCFCE7;
+    height: 22px;
+    padding: 2px 10px;
+    border-radius: 10px;
+}
+.flightcard__main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.flightcard__section { 
+    text-align: left;
+}
+.flightcard__title {
+    font-weight: 500;
+}
+.flightcard__time {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 3px 0;
+}
+.flightcard__date {
+    color: #6B7280;
+}
+.flightcard__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.flightcard__price {
+    color: #6B7280;
+}
+.flightcard__price-value {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1B9AF5;
+    margin-top: 2px;
+}
+.flightcard__btn {
+    padding: 8px 16px;
+    height: 36px;
+    border-radius: 8px;
+    border-style: none;
+    background: #1B9AF5;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+.flightcard__btn:hover {
+    background: #0E7AC1;
+    color: #fff;
+}
+.flightcard__flight-icon {
+    width: 16px;
+    height: 16px;
+}
