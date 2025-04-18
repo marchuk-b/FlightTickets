@@ -5,13 +5,13 @@ import Header from './components/PageComponents/Header/Header';
 
 function App() {
   return (
-    <>
+    <div className="page-wrapper">
       <Header />
       <div className="main-content">
         <FlightList/>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
 

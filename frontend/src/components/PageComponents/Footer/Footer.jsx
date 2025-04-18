@@ -17,39 +17,32 @@ const Footer = () => {
 
           <div className="footer__column">
             <h4 className="footer__title">Компанія</h4>
-            <a href="" className="footer__link">Про нас</a>
-            <a href="" className="footer__link">Кар'єра</a>
-            <a href="" className="footer__link">Новини</a>
+            <a href="/about" className="footer__link">Про нас</a>
+            <a href="#" className="footer__link">Кар'єра</a>
+            <a href="#" className="footer__link">Новини</a>
           </div>
 
           <div className="footer__column">
             <h4 className="footer__title">Підтримка</h4>
-            <a href="" className="footer__link">FAQ</a>
-            <a href="" className="footer__link">Контакти</a>
-            <a href="" className="footer__link">Правила</a>
+            <a href="#" className="footer__link">FAQ</a>
+            <a href="/contacts" className="footer__link">Контакти</a>
           </div>
 
           <div className="footer__column">
             <h4 className="footer__title">Соціальні мережі</h4>
-            <a href="" className="footer__link">
-              <img className="footer__icon" src={facebookIcon} alt="" /> Facebook
+            <a href="#" className="footer__link">
+              <img className="footer__icon" src={facebookIcon} alt="" />Facebook
             </a>
-            <a href="" className="footer__link">
-              <img className="footer__icon" src={twitterIcon} alt="" /> Twiter
+            <a href="#" className="footer__link">
+              <img className="footer__icon" src={twitterIcon} alt="" />Twiter
             </a>
-            <a href="" className="footer__link">
-              <img className="footer__icon" src={instagramIcon} alt="" /> Instagram
+            <a href="#" className="footer__link">
+              <img className="footer__icon" src={instagramIcon} alt="" />Instagram
             </a>
           </div>
         </div>
-
-        <div className="footer__content">
-          <div className="footer__text">© 2025 FlightTickets. Всі права захищені. </div>
-          <div className="footer__privacy">
-            <div className="footer__text">Політика конфіденційності</div>
-            <div className="footer__text">Умови використання</div>
-          </div>
-        </div>
+        
+        <div className="footer__copyright">© 2025 FlightTickets. Всі права захищені.</div>
 
       </div>
     </div>
