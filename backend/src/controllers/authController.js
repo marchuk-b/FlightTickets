@@ -12,7 +12,6 @@ const generateAccessToken = (id, roles) => {
     return jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '24h'})
 }
 
-
 class authController {
     async register(req, res) {
         try {
@@ -54,10 +53,35 @@ class authController {
             }
 
             const token = generateAccessToken(user._id, user.roles)
+
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: false, 
+                sameSite: "Lax",
+                maxAge: 3600000 // 1 година
+            });
+
             return res.json({token})
         } catch (error) {
             console.log(error)
             res.status(400).json({message: 'Login error'})
+        }
+    }
+    
+    async logout(req, res) {
+        try {
+            if (!req.cookies.token) {
+                return res.status(401).json({ message: "Unauthorized" });
+            }
+            res.clearCookie("token", {
+                httpOnly: true,
+                secure: false,
+                sameSite: "Lax"
+            });
+            return res.json({message: 'Logout successful'})
+        } catch (error) {
+            console.log(error)
+            res.status(400).json({message: 'Logout error'})
         }
     }
 
@@ -70,6 +94,19 @@ class authController {
             res.status(400).json({message: 'Error while getting users'})
         }
     }
+
+    async getCurrentUser(req, res) {
+        const token = req.cookies.token;
+        if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            res.json({ user: decoded });
+        } catch {
+            res.status(401).json({ message: "Invalid token" });
+        }
+    }
+
 }
 
 module.exports = new authController();

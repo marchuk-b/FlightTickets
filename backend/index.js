@@ -1,13 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
-
 const authRoutes = require('./src/routes/authRoutes');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+
 
 const app = express();
 const PORT = 5000;
 
 app.use(express.json())
+app.use(cors({
+    origin: "http://localhost:3000", // frontend адреса
+    credentials: true
+}));
+app.use(cookieParser());
 
 if (!process.env.MONGO_URL) {
     console.error('MONGO_URL is not defined!');
@@ -17,6 +24,11 @@ if (!process.env.MONGO_URL) {
 }
 
 app.use('/api/auth', authRoutes)
+
+app.get('/', (req, res) => {
+    res.send('Server is running')
+})
+
 async function start() {
     try {
         await mongoose.connect(`${process.env.MONGO_URL}`)

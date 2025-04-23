@@ -11,6 +11,8 @@ router.post('/register', [
     check('email', 'Email cannot be empty').isEmail()
 ], controller.register);
 router.post('/login', controller.login);
+router.post('/logout', controller.logout);
+router.get('/me', roleMiddleware(['ADMIN']), controller.getCurrentUser);
 router.get('/users', roleMiddleware(['ADMIN']), controller.getUsers);
 
 
