@@ -72,6 +72,7 @@
     .footer__column:first-child {
         width: 100%;
         align-items: center;
+        margin-bottom: 10px;
     }
     .footer__title {
         font-size: 14px;
