@@ -85,16 +85,6 @@ class authController {
         }
     }
 
-    async getUsers(req, res) {
-        try {
-            const users = await User.find()
-            res.json(users)
-        } catch (error) {
-            console.log(error)
-            res.status(400).json({message: 'Error while getting users'})
-        }
-    }
-
     async getCurrentUser(req, res) {
         const token = req.cookies.token;
         if (!token) return res.status(401).json({ message: "Unauthorized" });
