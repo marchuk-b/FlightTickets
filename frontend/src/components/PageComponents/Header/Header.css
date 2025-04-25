@@ -70,6 +70,10 @@
 .header__btn:hover {
     background: #0E7AC1;
 }
+.header__btn-link {
+    text-decoration: none;
+    color: #fff;
+}
 
 .header__burgermenu {
     display: none;

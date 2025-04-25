@@ -39,7 +39,9 @@ const Header = () => {
             </div>
 
             <div className="header__btns">
-              <button className="header__btn">Увійти</button>
+              <button className="header__btn">
+                <a href="/login" className="header__btn-link">Увійти</a>
+              </button>
             </div>
           </nav>
         </div>
