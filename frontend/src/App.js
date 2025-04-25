@@ -5,6 +5,7 @@ import Header from './components/PageComponents/Header/Header';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage';
 import { RegistrationPage } from './pages/RegistrationPage';
+import { FlightsPage } from './pages/FlightsPage';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<h1>Головна сторінка</h1>} />
             <Route path="/registration" element={<RegistrationPage />} />
+            <Route path="/flights" element={<FlightsPage />} />
             <Route path="/login" element={<LoginPage />} />
           </Routes>
         </div>

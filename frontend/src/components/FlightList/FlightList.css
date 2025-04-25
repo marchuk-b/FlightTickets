@@ -1,9 +1,9 @@
 .flightlist {
-    padding: 30px 0;
+    padding: 15px 0 30px;
     display: grid;
     grid-template-columns: repeat(3, minmax(330px, 1fr));
     gap: 10px;
-    background-color: #fcfcfc;
+    background-color: #F3F4F6;
 }
 
 @media screen and (max-width: 1100px) {

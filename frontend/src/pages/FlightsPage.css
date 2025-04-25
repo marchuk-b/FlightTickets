@@ -1,0 +1,37 @@
+.flightspage__flights {
+  display: flex;
+  justify-content: space-between;
+}
+.flightspage__title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 32px;
+  color: #111827;
+}
+.flightspage__sort {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 210px;
+}
+.flightspage__sort-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-right: 16px;
+}
+.flightspage__sort-input {
+  border: 1px solid #D1D5DB;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: normal;
+  padding: 10px 12px;
+  height: 38px;
+  max-width: 100px;
+  width: 100%;
+  cursor: pointer;
+}
+.flightspage__sort-input:focus {
+  outline: none;
+  border: 2px solid #1B9AF5;
+} 
