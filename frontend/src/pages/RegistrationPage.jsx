@@ -1,11 +1,23 @@
 import React from 'react'
 import { Form } from '../components/Form/Form'
+import API from '../api/axios'
 
 export const RegistrationPage = () => {
-  const handleRegister = () => {
+  const handleRegister = async (formData) => {
+    if (formData.password !== formData.confirmPassword) {
+      alert('Паролі не збігаються');
+      return;
+    }
 
-    console.log('Реєстрація з даними:')
-    // відправити через axios
+    try {
+      await API.post('/auth/register', formData)
+      alert('Реєстрація успішна!')
+      console.log('Registration successful:')
+    } catch (error) {
+      console.error('Registration error:', error.response?.data?.message || error.message)
+      alert(error.response?.data?.message || 'Не вдалося зареєструватися')
+      
+    }
   }
 
   const fields = [
