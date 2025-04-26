@@ -6,23 +6,31 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage';
 import { RegistrationPage } from './pages/RegistrationPage';
 import { FlightsPage } from './pages/FlightsPage';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { AuthProvider } from './api/AuthContext';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="page-wrapper">
-        <Header />
-        <div className="main-content">
-          <Routes>
-            <Route path="/" element={<h1>Головна сторінка</h1>} />
-            <Route path="/registration" element={<RegistrationPage />} />
-            <Route path="/flights" element={<FlightsPage />} />
-            <Route path="/login" element={<LoginPage />} />
-          </Routes>
+    <AuthProvider>
+      <BrowserRouter>
+        <div className="page-wrapper">
+          <Header />
+          <div className="main-content">
+            <Routes>
+              <Route path="/" element={<h1>Головна сторінка</h1>} />
+              <Route path="/registration" element={<RegistrationPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/flights" element={
+                <ProtectedRoute>
+                  <FlightsPage />
+                </ProtectedRoute>
+              } />
+            </Routes>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

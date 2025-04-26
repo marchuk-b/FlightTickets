@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 import logo from '../../../assets/logo.png';
+import { useAuth } from '../../../api/AuthContext';
 
 const Header = () => {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const { user, logout, loading } = useAuth();
+  const isAuthenticated = useMemo(() => !!user, [user]);
 
   const toggleBurgerMenu = () => {
       setIsBurgerOpen(!isBurgerOpen);
@@ -20,10 +24,10 @@ const Header = () => {
           <img src={logo} alt="" className="header__logo" />
           <nav className="header__nav">
             <div className={`header__links ${isBurgerOpen ? 'header__links--open' : 'header__links--close'}`}>
-              <a href="/" className="header__link" onClick={handleNavLinkClick}>Головна</a>
-              <a href="/flights" className="header__link" onClick={handleNavLinkClick}>Рейси</a>
-              <a href="/about" className="header__link" onClick={handleNavLinkClick}>Про нас</a>
-              <a href="/contacts" className="header__link" onClick={handleNavLinkClick}>Контакти</a>
+              <Link to="/" className="header__link" onClick={handleNavLinkClick}>Головна</Link>
+              <Link to="/flights" className="header__link" onClick={handleNavLinkClick}>Рейси</Link>
+              <Link to="/about" className="header__link" onClick={handleNavLinkClick}>Про нас</Link>
+              <Link to="/contacts" className="header__link" onClick={handleNavLinkClick}>Контакти</Link>
               {isBurgerOpen &&
                 <button className="header__close-btn" onClick={toggleBurgerMenu}>Закрити меню</button> 
               }
@@ -39,10 +43,18 @@ const Header = () => {
             </div>
 
             <div className="header__btns">
-              <button className="header__btn">
-                <a href="/login" className="header__btn-link">Увійти</a>
-              </button>
+              {!loading && !isAuthenticated && (
+                <button className="header__btn">
+                  <Link to="/login" className="header__btn-link">Увійти</Link>
+                </button>
+              )}
+              {!loading && isAuthenticated && (
+                <button className="header__btn" onClick={logout}>
+                  <span className="header__btn-link">Вийти</span>
+                </button>
+              )}
             </div>
+
           </nav>
         </div>
       </div>

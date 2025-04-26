@@ -41,8 +41,8 @@ class authController {
 
     async login(req, res) {
         try {
-            const { username, password } = req.body;
-            const user = await User.findOne({username})
+            const { email, password } = req.body;
+            const user = await User.findOne({email})
             if(!user) {
                 return res.status(400).json({message: 'User not found'})
             }
@@ -61,7 +61,11 @@ class authController {
                 maxAge: 3600000 // 1 година
             });
 
-            return res.json({token})
+            return res.json({token, user: {
+                id: user._id,
+                email: user.email,
+                roles: user.roles
+              } })
         } catch (error) {
             console.log(error)
             res.status(400).json({message: 'Login error'})

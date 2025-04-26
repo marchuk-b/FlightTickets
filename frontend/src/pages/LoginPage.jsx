@@ -1,10 +1,24 @@
 import React from 'react'
 import { Form } from '../components/Form/Form'
+import API from '../api/axios'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../api/AuthContext'
 
 export const LoginPage = () => {
-  const handleLogin = () => {
-    console.log('Логін з даними:')
-    // логін через axios
+  const navigate = useNavigate()
+  const { login } = useAuth()
+
+  const handleLogin = async (formData) => {
+    try {
+      const { data } = await API.post('/auth/login', formData) // відправляємо email і password
+
+      login(data.user)
+      console.log('Login successful:', data)
+      navigate('/flights')
+    } catch (error) {
+      console.error('Login error:', error.response?.data?.message || error.message)
+      alert(error.response?.data?.message || 'Не вдалося увійти')
+    }
   }
 
   const fields = [
