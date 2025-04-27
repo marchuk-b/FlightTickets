@@ -21,16 +21,31 @@ const Header = () => {
     <div className="header">
       <div className="container">
         <div className="header__content">
-          <img src={logo} alt="" className="header__logo" />
+          <Link to="/" onClick={handleNavLinkClick}>
+            <img src={logo} alt="" className="header__logo" />
+          </Link>
+
           <nav className="header__nav">
             <div className={`header__links ${isBurgerOpen ? 'header__links--open' : 'header__links--close'}`}>
               <Link to="/" className="header__link" onClick={handleNavLinkClick}>Головна</Link>
-              <Link to="/flights" className="header__link" onClick={handleNavLinkClick}>Рейси</Link>
               <Link to="/about" className="header__link" onClick={handleNavLinkClick}>Про нас</Link>
               <Link to="/contacts" className="header__link" onClick={handleNavLinkClick}>Контакти</Link>
-              {isBurgerOpen &&
-                <button className="header__close-btn" onClick={toggleBurgerMenu}>Закрити меню</button> 
-              }
+              {!loading && isAuthenticated && (
+                  <Link to="/profile" className="header__link" onClick={handleNavLinkClick}>Профіль</Link>
+              )}
+
+              <div className="header__btns">
+                {!loading && !isAuthenticated && (
+                  <button className="header__btn">
+                    <Link to="/login" className="header__btn-link" onClick={handleNavLinkClick}>Увійти</Link>
+                  </button>
+                )}
+                {!loading && isAuthenticated && (
+                  <button className="header__btn" onClick={logout}>
+                    <span className="header__btn-link" onClick={handleNavLinkClick}>Вийти</span>
+                  </button>
+                )}
+              </div>
             </div>
 
             <div
@@ -41,20 +56,6 @@ const Header = () => {
                 <span className="header__burger-line"></span>
                 <span className="header__burger-line"></span>
             </div>
-
-            <div className="header__btns">
-              {!loading && !isAuthenticated && (
-                <button className="header__btn">
-                  <Link to="/login" className="header__btn-link">Увійти</Link>
-                </button>
-              )}
-              {!loading && isAuthenticated && (
-                <button className="header__btn" onClick={logout}>
-                  <span className="header__btn-link">Вийти</span>
-                </button>
-              )}
-            </div>
-
           </nav>
         </div>
       </div>

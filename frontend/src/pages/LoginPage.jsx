@@ -14,7 +14,7 @@ export const LoginPage = () => {
 
       login(data.user)
       console.log('Login successful:', data)
-      navigate('/flights')
+      navigate('/')
     } catch (error) {
       console.error('Login error:', error.response?.data?.message || error.message)
       alert(error.response?.data?.message || 'Не вдалося увійти')

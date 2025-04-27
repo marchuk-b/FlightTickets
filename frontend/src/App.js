@@ -17,10 +17,9 @@ function App() {
           <Header />
           <div className="main-content">
             <Routes>
-              <Route path="/" element={<h1>Головна сторінка</h1>} />
               <Route path="/registration" element={<RegistrationPage />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/flights" element={
+              <Route path="/" element={
                 <ProtectedRoute>
                   <FlightsPage />
                 </ProtectedRoute>
