@@ -3,6 +3,13 @@ import './FlightCard.css'
 import planeIcon from '../../assets/icons/plane.svg'
 
 export const FlightCard = ({flightInfo}) => {
+  const statusClass = {
+    "За розкладом": "flightcard__flight-status--on-time",
+    "Запізнення": "flightcard__flight-status--delayed",
+    "Відмінено": "flightcard__flight-status--cancelled"
+  }[flightInfo.status];
+
+
   return (
     <>
       <div className="flightcard">
@@ -11,7 +18,10 @@ export const FlightCard = ({flightInfo}) => {
             <div className="flightcard__flight-name">Рейс {flightInfo.flightname}</div>
             <div className="flightcard__flight-direction">{flightInfo.direction.from + ' → ' + flightInfo.direction.to}</div>
           </div>
-          <div className="flightcard__flight-status">{flightInfo.status}</div>
+          <div className={`flightcard__flight-status ${statusClass}`}>
+            {flightInfo.status}
+          </div>
+
         </div>
         
         <div className="flightcard__main">
@@ -34,7 +44,12 @@ export const FlightCard = ({flightInfo}) => {
             від <br />
             <span className="flightcard__price-value">{flightInfo.price}UAH</span>
           </div>
-          <button className='flightcard__btn'>Забронювати</button>
+          <button
+            className={`flightcard__btn ${flightInfo.status === "Відмінено" ? "disabled" : ""}`}
+            disabled={flightInfo.status === "Відмінено"}
+          >
+            Забронювати
+          </button>
         </div>
       </div>
     </>

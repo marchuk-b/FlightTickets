@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const authRoutes = require('./src/routes/authRoutes');
 const userRoutes = require('./src/routes/userRoutes');
+const flightRoutes = require('./src/routes/flightRoutes');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -26,6 +27,7 @@ if (!process.env.MONGO_URL) {
 
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
+app.use('/api/flights', flightRoutes)
 
 app.get('/', (req, res) => {
     res.send('Server is running')

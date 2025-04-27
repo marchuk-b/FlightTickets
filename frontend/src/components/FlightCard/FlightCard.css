@@ -25,11 +25,21 @@
 .flightcard__flight-status {
     font-size: 12px;
     font-weight: 500;
-    color: #166534;
-    background: #DCFCE7;
     height: 22px;
     padding: 2px 10px;
     border-radius: 10px;
+}
+.flightcard__flight-status--on-time {
+    background: #DCFCE7;
+    color: #166534;
+}
+.flightcard__flight-status--delayed {
+    background: #FEF3C7;
+    color: #92400E;
+}
+.flightcard__flight-status--cancelled {
+    background: #FEE2E2;
+    color: #B91C1C;
 }
 .flightcard__main {
     display: flex;
@@ -75,6 +85,15 @@
     color: #fff;
     cursor: pointer;
     transition: all 0.3s linear;
+}
+.flightcard__btn.disabled {
+    background: #E5E7EB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+}
+.flightcard__btn.disabled:hover {
+    background: #E5E7EB;
+    color: #9CA3AF;
 }
 .flightcard__btn:hover {
     background: #0E7AC1;
