@@ -1,0 +1,51 @@
+.seatlist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.seatlist__title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    text-align: center;
+    color: #6B7280;
+}
+.seatlist__seats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.seatlist__seats__row {
+    display: flex;
+    margin-bottom: 8px;
+}
+  
+.seatlist__seats__item {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #D1D5DB;
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+.seatlist__seats__item.available {
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid #D1D5DB;
+}
+.seatlist__seats__item.unavailable {
+    background-color: #E5E7EB;
+    border: 1px solid #D1D5DB;
+}
+.seatlist__seats__item.selected {
+    background-color: #1B9AF5;
+    border: 1px solid #1a8ddf;
+}
+  
+.seatlist__seats__aisle {
+    width: 40px; /* ширина проходу */
+}
+  

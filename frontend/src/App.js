@@ -8,6 +8,7 @@ import { RegistrationPage } from './pages/RegistrationPage';
 import { FlightsPage } from './pages/FlightsPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider } from './api/AuthContext';
+import { BookingPage } from './pages/BookingPage';
 
 function App() {
   return (
@@ -22,6 +23,12 @@ function App() {
               <Route path="/" element={
                 <ProtectedRoute>
                   <FlightsPage />
+                </ProtectedRoute>
+              } />
+              <Route path='*' element={<h1>404 Not Found</h1>} />
+              <Route path='/booking' element={
+                <ProtectedRoute>
+                  <BookingPage />
                 </ProtectedRoute>
               } />
             </Routes>
