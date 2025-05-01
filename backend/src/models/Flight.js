@@ -12,11 +12,8 @@ const Flight = new Schema({
     arrivalDate: { type: String, required: true },
     price: { type: Number, required: true },
     status: { type: String, required: true },
-    seats: [{
-        сlass: { type: String, required: true },
-        number: { type: Number, required: true },
-        isFree: { type: Boolean, required: true, default: true }
-    }]
+    plane: { type: Schema.Types.ObjectId, ref: 'Plane', required: true },
+    seats: [{ type: Schema.Types.ObjectId, ref: 'Seat' }]
 })
 
 module.exports = model('Flight', Flight)

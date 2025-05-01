@@ -33,8 +33,8 @@ class flightController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({message: 'Validation error', errors})
             }
-            const { flightName, direction, departureTime, departureDate, arrivalTime, arrivalDate, price, status, freeSeats } = req.body
-            const flight = new Flight({ flightName, direction, departureTime, departureDate, arrivalTime, arrivalDate, price, status, freeSeats })
+            const { flightName, direction, departureTime, departureDate, arrivalTime, arrivalDate, price, status, freeSeats, plane, seats } = req.body
+            const flight = new Flight({ flightName, direction, departureTime, departureDate, arrivalTime, arrivalDate, price, status, freeSeats, plane, seats })
             await flight.save()
             return res.json(flight)
         } catch (error) {
@@ -46,10 +46,10 @@ class flightController {
     async updateFlight(req, res) {
         try {
             const { id } = req.params;
-            const { flightName, direction, departureTime, departureDate, arrivalTime, arrivalDate, price, status, freeSeats } = req.body;
+            const { flightName, direction, departureTime, departureDate, arrivalTime, arrivalDate, price, status, freeSeats, plane, seats } = req.body;
             const flight = await Flight.findByIdAndUpdate(
                 id,
-                { flightName, direction, departureTime, departureDate, arrivalTime, arrivalDate, price, status, freeSeats },
+                { flightName, direction, departureTime, departureDate, arrivalTime, arrivalDate, price, status, freeSeats, plane, seats },
                 { new: true }
             );
             if (!flight) {
