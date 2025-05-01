@@ -10,6 +10,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider } from './api/AuthContext';
 import { BookingPage } from './pages/BookingPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { EditProfilePage } from './pages/EditProfilePage';
 
 function App() {
   return (
@@ -35,6 +36,11 @@ function App() {
               <Route path='/profile' element={
                 <ProtectedRoute>
                   <ProfilePage />
+                </ProtectedRoute>
+              } />
+              <Route path='/edit' element={
+                <ProtectedRoute>
+                  <EditProfilePage />
                 </ProtectedRoute>
               } />
             </Routes>

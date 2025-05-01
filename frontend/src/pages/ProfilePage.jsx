@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import './ProfilePage.css'
 import userImg from '../assets/user.png'
+import edit from '../assets/icons/edit.svg'
 import { useAuth } from '../api/AuthContext'
 import API from '../api/axios'
+import { Link } from 'react-router-dom'
 
 export const ProfilePage = () => {
     const { user } = useAuth();
-    const [userInfo, setUserInfo] = useState({})
+    const [userInfo, setUserInfo] = useState({
+        username: '',
+        email: '',
+        newPassword: '',
+        confirmPassword: ''
+    });
 
     useEffect(() => {
         try {
@@ -36,7 +43,12 @@ export const ProfilePage = () => {
                         </div>
                     </div>
                     <div className="profile__footer">
-
+                            <button className="profile__btn">
+                                <Link className="profile__link" to={'/edit'}>
+                                    <img className='profile__icon' src={edit} alt="" /> 
+                                    <div className='profile__text'>Редагувати профіль</div>
+                                </Link>
+                            </button>
                     </div>
                 </div>
                 <div className="profilepage__ticketlist">

@@ -21,7 +21,7 @@ export const RegistrationPage = () => {
   }
 
   const fields = [
-    { name: 'username', label: "Ім'я та прізвище", type: 'text', required: true },
+    { name: 'username', label: "Ім'я користувача", type: 'text', required: true },
     { name: 'email', label: "Email", type: 'email', required: true },
     { name: 'password', label: "Пароль", type: 'password', required: true },
     { name: 'confirmPassword', label: "Підтвердження паролю", type: 'password', required: true },

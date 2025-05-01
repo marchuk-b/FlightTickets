@@ -6,7 +6,7 @@ const roleMiddleware = require('../middlewares/roleMiddleware');
 router.get('/', controller.getUsers);
 router.get('/:id', controller.getUser);
 router.delete('/:id', roleMiddleware(['ADMIN']), controller.deleteUser);
-router.put('/:id', roleMiddleware(['ADMIN']), controller.changeUser);
+router.put('/:id', controller.changeUser);
 router.post('/:id/role/:role', roleMiddleware(['ADMIN']), controller.addUserRole);
 router.delete('/:id/role/:role', roleMiddleware(['ADMIN']), controller.deleteUserRole);
 

@@ -1,0 +1,76 @@
+.editpage {
+    margin: 32px 0 80px;
+}
+.editpage__content {
+    padding: 24px;
+    background-color: #fff;
+}
+.edit__title {
+    margin: 0 0 24px;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+}
+.edit__form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 30px;
+}
+.edit__element {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.edit__label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #374151;
+}
+.edit__input {
+    border: 1px solid #D1D5DB;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px 12px;
+    height: 44px;
+    cursor: pointer;
+}
+.edit__input:focus {
+    outline: none;
+    border: 1px solid #1B9AF5;
+    box-shadow: 0 0 0 3px rgba(27, 154, 245, 0.3);
+}
+.edit__btn {
+    justify-self: end;
+    grid-column: span 2;
+    width: 300px;
+    height: 44px;
+    background-color: #1B9AF5;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+.edit__btn:hover {
+    background-color: #0E7AC1;
+}
+.edit__ps {
+    margin-top: 24px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 600px) {
+    .edit__form {
+        display: flex;
+        flex-direction: column;
+    }
+    .edit__btn {
+        width: 100%;
+        grid-row: span 1;
+    }
+}
