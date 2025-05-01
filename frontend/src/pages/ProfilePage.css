@@ -1,0 +1,51 @@
+.profilepage {
+    margin: 32px 0 80px;
+}
+.profilepage__content {
+    padding: 24px;
+    background-color: #fff;
+}
+.profile__header {
+    display: flex;
+    align-items: center;
+}
+.profile__img {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+}
+.profile__username {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 32px;
+    color: #111827;
+}
+.profile__email {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #111827;
+}
+.profile__achievement {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 22px;
+    color: #111827;
+}
+.profilepage__ticketlist {
+    margin: 50px 0 0;
+}
+.profilepage__title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+    color: #111827;
+}
+.profilepage__notfound {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 22px;
+    color: #111827;
+    margin: 20px 0;
+}

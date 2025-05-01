@@ -68,7 +68,7 @@ export const FlightSearch = () => {
 
           <div className="flightsearch__group">
             <label className="flightsearch__label" htmlFor="passengers">Пасажири</label>
-            <input id="passengers" name="passengers" className="flightsearch__input" type="number" value={1} min="1" max="9" required />
+            <input id="passengers" name="passengers" className="flightsearch__input" type="number" defaultValue={1} min="1" max="9" required />
           </div>
 
           <div className="flightsearch__group flightsearch__group--button">

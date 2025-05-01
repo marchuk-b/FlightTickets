@@ -9,6 +9,7 @@ import { FlightsPage } from './pages/FlightsPage';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AuthProvider } from './api/AuthContext';
 import { BookingPage } from './pages/BookingPage';
+import { ProfilePage } from './pages/ProfilePage';
 
 function App() {
   return (
@@ -29,6 +30,11 @@ function App() {
               <Route path='/booking' element={
                 <ProtectedRoute>
                   <BookingPage />
+                </ProtectedRoute>
+              } />
+              <Route path='/profile' element={
+                <ProtectedRoute>
+                  <ProfilePage />
                 </ProtectedRoute>
               } />
             </Routes>
