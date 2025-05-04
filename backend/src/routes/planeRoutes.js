@@ -13,8 +13,8 @@ router.post('/', roleMiddleware(['ADMIN']), [
     body('aisles', 'Aisles must be an array of numbers').optional().isArray(),
     body('aisles.*', 'Each aisle must be a valid column number').optional().isInt({ min: 0 }),
   ], controller.createPlane);
-router.get('/:id', roleMiddleware(['ADMIN']), controller.getPlane);
-router.get('/', roleMiddleware(['ADMIN']), controller.getPlanes);
+router.get('/:id', controller.getPlane);
+router.get('/', controller.getPlanes);
 router.delete('/:id', roleMiddleware(['ADMIN']), controller.deletePlane);
 
 module.exports = router;

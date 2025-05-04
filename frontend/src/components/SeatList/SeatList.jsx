@@ -6,18 +6,19 @@ const generateSeats = (rowNumber, columnNumber, aisleIndexes) => {
 
   for (let i = 0; i < rowNumber; i++) {
     const row = [];
-
     let letterIndex = 0;
 
     for (let j = 0; j < columnNumber + aisleIndexes.length; j++) {
       if (aisleIndexes.includes(j)) {
         row.push({ type: 'aisle', key: `aisle-${i}-${j}` });
       } else {
+        const seatId = `${i + 1}${String.fromCharCode(65 + letterIndex)}`;
         row.push({
           type: 'seat',
           row: i + 1,
           column: String.fromCharCode(65 + letterIndex),
-          key: `${i + 1}${String.fromCharCode(65 + letterIndex)}`,
+          key: seatId,
+          seatId,
         });
         letterIndex++;
       }
@@ -28,7 +29,15 @@ const generateSeats = (rowNumber, columnNumber, aisleIndexes) => {
   return seats;
 };
 
-export const SeatList = ({ rowNumber, columnNumber, listTitle, aisleIndexes = [] }) => {
+export const SeatList = ({
+  rowNumber,
+  columnNumber,
+  aisleIndexes,
+  listTitle,
+  selectedSeats,
+  reservedSeats,
+  onSeatClick = () => {},
+}) => {
   const seats = generateSeats(rowNumber, columnNumber, aisleIndexes);
 
   return (
@@ -37,15 +46,30 @@ export const SeatList = ({ rowNumber, columnNumber, listTitle, aisleIndexes = []
       <div className="seatlist__seats">
         {seats.map((row, rowIndex) => (
           <div key={rowIndex} className="seatlist__seats__row">
-            {row.map((item) => (
+            {row.map((item) =>
               item.type === 'aisle' ? (
                 <div key={item.key} className="seatlist__seats__aisle" />
               ) : (
-                <div key={item.key} className="seatlist__seats__item available">
-                  {item.row}{item.column}
+                <div
+                  key={item.key}
+                  className={`seatlist__seats__item ${
+                    reservedSeats.includes(item.seatId)
+                      ? 'unavailable'
+                      : selectedSeats.includes(item.seatId)
+                      ? 'selected'
+                      : 'available'
+                  }`}
+                  onClick={() => {
+                    if (!reservedSeats.includes(item.seatId)) {
+                      onSeatClick(item.seatId);
+                    }
+                  }}
+                >
+                  {item.row}
+                  {item.column}
                 </div>
               )
-            ))}
+            )}
           </div>
         ))}
       </div>

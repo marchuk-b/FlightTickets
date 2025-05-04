@@ -7,7 +7,7 @@ const SeatSchema = new Schema({
   },
   seatClass: {
     type: String,
-    enum: ['economy', 'business', 'first'],
+    enum: ['economy', 'business'],
     required: true,
   },
   isReserved: {
@@ -19,6 +19,6 @@ const SeatSchema = new Schema({
     ref: 'User',
     default: null,
   }
-}, { _id: false });
+});
 
 module.exports = model('Seat', SeatSchema)

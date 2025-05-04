@@ -31,6 +31,7 @@
     align-items: center;
     justify-content: center;
     border-radius: 6px;
+    cursor: pointer;
 }
 .seatlist__seats__item.available {
     background-color: rgba(0, 0, 0, 0);
@@ -39,10 +40,12 @@
 .seatlist__seats__item.unavailable {
     background-color: #E5E7EB;
     border: 1px solid #D1D5DB;
+    cursor: not-allowed;
 }
 .seatlist__seats__item.selected {
     background-color: #1B9AF5;
     border: 1px solid #1a8ddf;
+    color: #fff;
 }
   
 .seatlist__seats__aisle {

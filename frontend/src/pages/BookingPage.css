@@ -53,6 +53,41 @@
     line-height: 24px;
     color: #374151;
 }
+
+.bookingpage__choice-class__input {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    max-width: 150px;
+    width: 100%;
+}
+.bookingpage__choice-class__input-input {
+    border: 1px solid #D1D5DB;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 10px 12px;
+    height: 44px;
+    cursor: pointer;
+}
+.bookingpage__choice-class__input-input:focus {
+    outline: none;
+    border: 1px solid #1B9AF5;
+    box-shadow: 0 0 0 3px rgba(27, 154, 245, 0.3);
+    cursor: pointer;
+}
+.bookingpage__choice-class__input-label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #374151;
+}
+.bookingpage__choice-class__info {
+    font-size: 14px;
+    margin-top: 5px;
+    font-weight: 500;
+    color: #374151;
+}
 .bookingpage__choice-class__seats-info {
     display: flex;
     column-gap: 20px;
@@ -86,4 +121,22 @@
 }
 .bookingpage__choice-seat__list {
     margin-top: 24px;
+}
+.bookingpage__btn {
+    display: block;
+    margin: 24px auto 0;
+    max-width: 350px;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #1B9AF5;
+    border: none;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+.bookingpage__btn:hover {
+    background-color: #0E7AC1;
 }
