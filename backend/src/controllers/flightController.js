@@ -1,6 +1,7 @@
 const Flight = require('../models/Flight');
 const Plane = require('../models/Plane');
 const Seat = require('../models/Seat');
+const { validationResult } = require('express-validator');
 
 class flightController {
     async getFlights(req, res) {
@@ -33,33 +34,39 @@ class flightController {
             if (!errors.isEmpty()) {
                 return res.status(400).json({message: 'Validation error', errors})
             }
-          const {
-            flightName, direction, departureTime, departureDate,
-            arrivalTime, arrivalDate, price, status, plane: planeId
-          } = req.body;
-      
+            const {
+                flightName, direction, departureTime, departureDate,
+                arrivalTime, arrivalDate, price, status, plane: planeId
+            } = req.body;
+    
           const plane = await Plane.findById(planeId);
           if (!plane) return res.status(404).json({ error: 'Plane not found' });
       
-          const { rows, columns, aisles, classDistribution } = plane;
-      
           const seats = [];
-          let currentClass = 'business';
-          let currentRow = 1;
+          const classPrefix = { business: 'B', economy: 'E' };
       
-          for (let classType of ['business', 'economy']) {
-            const classRows = classDistribution[classType];
-            for (let i = 0; i < classRows; i++) {
+          for (const classType of ['business', 'economy']) {
+            // В залежності від класу використовуємо відповідну конфігурацію
+            const config = classType === 'business' ? plane.businessPart : plane.economPart;
+            
+            // Задаємо кількість рядів з даних конфігурації
+            let rowNumber = 1;
+            for (let i = 0; i < config.rows; i++) {
               let seatLetterIndex = 0;
+              // Загальна кількість позицій у ряду = кількість місць (columns) плюс кількість проходів (aisles)
+              for (let j = 0; j < config.columns + config.aisles.length; j++) {
+                // Пропускаємо позиції, які відповідають проходу
+                if (config.aisles.includes(j)) continue;
       
-              for (let j = 0; j < columns + aisles.length; j++) {
-                if (aisles.includes(j)) continue;
-      
-                const seatId = `${currentRow}${String.fromCharCode(65 + seatLetterIndex)}`;
-                seats.push(new Seat({ seatId, seatClass: classType }));
+                const seatLetter = String.fromCharCode(65 + seatLetterIndex); // A, B, C...
+                const seatId = `${classPrefix[classType]}${seatLetter}${rowNumber}`;
+
+                
+                seats.push(new Seat({ seatId, seatClass: classType, row: rowNumber, column: seatLetter 
+                }));
                 seatLetterIndex++;
               }
-              currentRow++;
+              rowNumber++;
             }
           }
       
@@ -121,7 +128,7 @@ class flightController {
     async getSeats(req, res) {
         try {
             const { id } = req.params;
-            const flight = await Flight.findById(id).populate('plane');
+            const flight = await Flight.findById(id).populate('seats');
             if (!flight) {
               return res.status(404).json({ message: 'Flight not found' });
             }

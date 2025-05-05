@@ -18,6 +18,14 @@ const SeatSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     default: null,
+  },
+  row: {
+    type: Number,
+    required: true,
+  },
+  column: {
+    type: String,
+    required: true,
   }
 });
 

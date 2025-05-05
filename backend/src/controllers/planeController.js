@@ -4,28 +4,19 @@ const { validationResult } = require('express-validator');
 class planeController {
   async createPlane(req, res) {
     try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({ message: 'Validation error', errors });
-      }
+      const { name, businessPart, economPart } = req.body;
 
-      const { name, rows, columns, aisles, classDistribution } = req.body;
-
-      if (!classDistribution || typeof classDistribution !== 'object') {
-        return res.status(400).json({ message: 'Invalid classDistribution' });
-      }
-
-      const totalClassRows = Object.values(classDistribution).reduce((a, b) => a + b, 0);
-      if (totalClassRows > rows) {
-        return res.status(400).json({ message: 'Sum of classDistribution exceeds total rows' });
-      }
-
-      const plane = new Plane({ name, rows, columns, aisles, classDistribution });
-      await plane.save();
-      res.status(201).json(plane);
+      const newPlane = new Plane({
+        name,
+        businessPart,  
+        economPart
+      });
+  
+      const savedPlane = await newPlane.save();
+      res.status(201).json(savedPlane);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error while creating plane' });
+      res.status(500).json({ message: 'Error of creating a plane' });
     }
   }
 
