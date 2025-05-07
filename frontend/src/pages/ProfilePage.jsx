@@ -5,6 +5,8 @@ import edit from '../assets/icons/edit.svg'
 import { useAuth } from '../api/AuthContext'
 import API from '../api/axios'
 import { Link } from 'react-router-dom'
+import { TicketList } from '../components/TicketList/TicketList'
+import medal from '../assets/icons/achievement1.svg'
 
 export const ProfilePage = () => {
     const { user } = useAuth();
@@ -39,7 +41,10 @@ export const ProfilePage = () => {
                         <div className="profile__info">
                             <div className="profile__username">{userInfo.username}</div>
                             <div className="profile__email">{userInfo.email}</div>
-                            <div className="profile__achievement">Льочік-початківець</div>
+                            <div className="profile__achievement" title='Логіка досягнень буде додана згодом. Слідкуйте за оновленнями!'>
+                                 <img className="profile__icon achievement" src={medal} alt="fff" />
+                                Льочік-початківець
+                            </div>
                         </div>
                     </div>
                     <div className="profile__footer">
@@ -53,7 +58,9 @@ export const ProfilePage = () => {
                 </div>
                 <div className="profilepage__ticketlist">
                     <div className="profilepage__title">Квитки користувача:</div>
-                    <div className='profilepage__notfound'>Поки немає🥸</div>
+                    <div className="profilepage__tickets">
+                        <TicketList />
+                    </div>
                 </div>
             </div>
         </div>

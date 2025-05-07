@@ -2,6 +2,30 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    padding: 20px;
+    border-radius: 0 0 40px 40px;
+    background: #f8f8f8;
+    border: 5px solid #ccc;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.seatlist.airbus {
+    width: 520px;
+}
+.seatlist.boeing {
+    width: 420px;
+    margin: 0 auto;
+}
+.seatlist.business {
+    padding: 200px 20px 20px;
+    border-radius: 50% 50% 0 0;
+}
+.seatlist.business.boeing {
+    width: 420px;
+    margin: 0 auto;
+}
+.seatlist.business.airbus {
+    width: 520px;
 }
 .seatlist__title {
     font-size: 14px;
@@ -33,6 +57,13 @@
     border-radius: 6px;
     cursor: pointer;
 }
+.seatlist.business .seatlist__seats__item {
+    width: 50px;
+    height: 50px;
+    line-height: 40px;
+    margin: 4px;
+    font-size: 14px;
+}
 .seatlist__seats__item.available {
     background-color: rgba(0, 0, 0, 0);
     border: 1px solid #D1D5DB;
@@ -47,8 +78,10 @@
     border: 1px solid #1a8ddf;
     color: #fff;
 }
-  
 .seatlist__seats__aisle {
-    width: 40px; /* ширина проходу */
+    width: 40px;
+}
+.seatlist.business.boeing .seatlist__seats__aisle {
+    width: 60px;
 }
   

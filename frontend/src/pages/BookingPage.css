@@ -4,6 +4,9 @@
 .bookingpage__content {
     background-color: #fff;
     padding: 32px;
+    max-width: 1150px;
+    width: 100%;
+    margin: 0 auto;
 }
 .bookingpage__title {
     font-size: 24px;
@@ -120,7 +123,13 @@
     border: 1px solid #D1D5DB;
 }
 .bookingpage__choice-seat__list {
-    margin-top: 24px;
+    margin-top: 12px;
+}
+.bookingpage__btns {
+    display: flex;
+    column-gap: 10px;
+    max-width: 320px;
+    margin: 0 auto;
 }
 .bookingpage__btn {
     display: block;
@@ -139,4 +148,11 @@
 }
 .bookingpage__btn:hover {
     background-color: #0E7AC1;
+}
+.bookingpage__btn.cancel {
+    background-color: #E5E7EB;
+    color: #374151;
+}
+.bookingpage__btn:hover.cancel {
+    background-color: #D1D5DB;
 }
