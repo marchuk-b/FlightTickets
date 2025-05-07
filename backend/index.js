@@ -5,6 +5,7 @@ const authRoutes = require('./src/routes/authRoutes');
 const userRoutes = require('./src/routes/userRoutes');
 const flightRoutes = require('./src/routes/flightRoutes');
 const planeRoutes = require('./src/routes/planeRoutes');
+const ticketRoutes = require('./src/routes/ticketRoutes');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
@@ -30,6 +31,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/flights', flightRoutes)
 app.use('/api/planes', planeRoutes)
+app.use('/api/tickets', ticketRoutes)
 
 app.get('/', (req, res) => {
     res.send('Server is running')
