@@ -11,6 +11,13 @@ export const FlightCard = ({flightInfo}) => {
     "Відмінено": "flightcard__flight-status--cancelled"
   }[flightInfo.status];
 
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate)
+    return new Intl.DateTimeFormat('uk-UA', {
+      day: 'numeric',
+      month: 'long',
+    }).format(date)
+  }
 
   return (
     <div className="flightcard">
@@ -29,7 +36,7 @@ export const FlightCard = ({flightInfo}) => {
         <div className="flightcard__section flightcard__section--departure">
             <div className="flightcard__title">Виліт</div>
             <div className="flightcard__time">{flightInfo.departureTime}</div>
-            <div className="flightcard__date">{flightInfo.departureDate}</div>
+            <div className="flightcard__date">{formatDate(flightInfo.departureDate)}</div>
         </div>
 
         <img src={planeIcon} className="flightcard__flight-icon" alt="" />
@@ -37,7 +44,7 @@ export const FlightCard = ({flightInfo}) => {
         <div className="flightcard__section flightcard__section--arrival">
           <div className="flightcard__title">Приліт</div>
           <div className="flightcard__time">{flightInfo.arrivalTime}</div>
-          <div className="flightcard__date">{flightInfo.arrivalDate}</div>
+          <div className="flightcard__date">{formatDate(flightInfo.arrivalDate)}</div>
         </div>
       </div>
       <div className="flightcard__footer">

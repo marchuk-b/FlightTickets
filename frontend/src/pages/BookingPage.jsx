@@ -15,7 +15,6 @@ export const BookingPage = () => {
     const [reservedSeats, setReservedSeats] = useState([]);
     const [flightClass, setFlightClass] = useState('economy');
     const [loading, setLoading] = React.useState(true);
-    const [ticketCount, setTicketCount] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -41,48 +40,53 @@ export const BookingPage = () => {
         }
         
         fetchFlight()
-        }, [flightId])
+    }, [flightId]);
 
-        if (loading || !flight || !plane) {
-            return <div>Завантаження...</div>;
-        }
+    if (loading || !flight || !plane) {
+        return <div>Завантаження...</div>;
+    }
 
     const handleSeatClick = (seatId) => {
-        setSelectedSeats((prevSelected) => {
-        if (prevSelected.includes(seatId)) {
-            return prevSelected.filter((s) => s !== seatId);
-        } else if (prevSelected.length < ticketCount) {
-            return [...prevSelected, seatId];
-        } else {
-            return prevSelected;
-        }
-        });
-    };
+        setSelectedSeats((prevSelected) =>
+          prevSelected.includes(seatId)
+            ? prevSelected.filter((s) => s !== seatId)
+            : [...prevSelected, seatId]
+        );
+      };
 
     const handleReservation = async () => {
         try {
-        if (selectedSeats.length === 0) return alert("Ви не вибрали жодного місця");
-        
-        await API.patch(`/flights/${flightId}/seats`, {seatIds: selectedSeats, user: user});
-        console.log(selectedSeats)
-        alert("Місця успішно заброньовано!");
+            if (selectedSeats.length === 0) return alert("Ви не вибрали жодного місця");
+            
+            await API.patch(`/flights/${flightId}/seats`, {seatIds: selectedSeats, user: user});
+            console.log(selectedSeats)
+            navigate(`/${user.id}/confirm/${flightId}`)
         } catch (err) {
-        console.error(err);
-        alert("Помилка під час бронювання.");
+            console.error(err);
+            alert("Помилка під час бронювання.");
         }
     };
 
-const economConfig = {
-    planeType: plane.name.toLowerCase().split(" ")[0],
-    columns: plane.economPart.columns,
-    aisles: plane.economPart.aisles
-};
+    const formatDate = (isoDate) => {
+        const date = new Date(isoDate)
+        return new Intl.DateTimeFormat('uk-UA', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        }).format(date)
+      }
 
-const businessConfig = {
-    planeType: plane.name.toLowerCase().split(" ")[0],
-    columns: plane.businessPart.columns,
-    aisles: plane.businessPart.aisles
-};
+    const economConfig = {
+        planeType: plane.name.toLowerCase().split(" ")[0],
+        columns: plane.economPart.columns,
+        aisles: plane.economPart.aisles
+    };
+
+    const businessConfig = {
+        planeType: plane.name.toLowerCase().split(" ")[0],
+        columns: plane.businessPart.columns,
+        aisles: plane.businessPart.aisles
+    };
 
   const planeConfig = flightClass === 'business' ? businessConfig : economConfig;
   
@@ -104,7 +108,6 @@ const businessConfig = {
                                 checked={flightClass === 'economy'}
                                 onChange={(e) => {
                                 setFlightClass(e.target.value);
-                                setSelectedSeats([]);
                                 }}
                             />
                             <label className='bookingpage__choice-class__checkboxes__label' htmlFor="economy">Економ клас</label>
@@ -118,36 +121,19 @@ const businessConfig = {
                                 checked={flightClass === 'business'}
                                 onChange={(e) => {
                                 setFlightClass(e.target.value);
-                                setSelectedSeats([]);
                                 }}
                             />
                             <label className='bookingpage__choice-class__checkboxes__label' htmlFor="business">Бізнес клас</label>
                             </div>
                         </div>
 
-                        <div className="bookingpage__choice-class__input">
-                            <label className="bookingpage__choice-class__input-label" htmlFor="numbTickets">Кількість квитків</label>
-                            <input
-                            className="bookingpage__choice-class__input-input"
-                            type="number"
-                            id="numbTickets"
-                            min={1}
-                            max={5}
-                            value={ticketCount}
-                            onChange={(e) => {
-                                const value = Math.max(1, Math.min(5, parseInt(e.target.value) || 1));
-                                setTicketCount(value);
-                                setSelectedSeats((prev) => prev.slice(0, value));
-                            }}
-                            />
-                            <div className="bookingpage__choice-class__info">
-                            Обрано {selectedSeats.length} з {ticketCount} місць
-                            </div>
-                        </div>
-
                         <div className="bookingpage__choice-class__flight">
                             <div className="bookingpage__choice-class__flightname">Рейс: {flight.name} {flight.direction.from} - {flight.direction.to}</div>
-                            <div className="bookingpage__choice-class__flightdate">Дата: {flight.departureDate}</div>
+                            <div className="bookingpage__choice-class__flightdate">
+                                Дата: {" "}
+                                {flight.departureDate === flight.arrivalDate ?
+                                    formatDate(flight.departureDate) : formatDate(flight.departureDate) - formatDate(flight.arrivalDate)}
+                            </div>
                         </div>
 
 
@@ -169,7 +155,7 @@ const businessConfig = {
                         />
                         <div className="bookingpage__btns">
                             <button className="bookingpage__btn cancel" onClick={() => navigate('/')}>Скасувати</button>
-                            <button className="bookingpage__btn">Забронювати</button>
+                            <button className="bookingpage__btn" onClick={handleReservation}>Далі</button>
                         </div>
                     </div>
                 </div>

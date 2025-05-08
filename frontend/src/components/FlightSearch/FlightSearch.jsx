@@ -66,11 +66,6 @@ export const FlightSearch = () => {
             </div>
           </div>
 
-          <div className="flightsearch__group">
-            <label className="flightsearch__label" htmlFor="passengers">Пасажири</label>
-            <input id="passengers" name="passengers" className="flightsearch__input" type="number" defaultValue={1} min="1" max="9" required />
-          </div>
-
           <div className="flightsearch__group flightsearch__group--button">
             <button className="flightsearch__btn">Пошук рейсів</button>
           </div>

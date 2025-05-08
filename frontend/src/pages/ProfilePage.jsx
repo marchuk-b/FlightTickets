@@ -20,10 +20,8 @@ export const ProfilePage = () => {
     useEffect(() => {
         try {
             const getInfo = async () => {
-                const response = await API.get(`/users/${user.id}`, {withCredentials: true}); 
-                const userData = response.data; 
-                console.log(userData); 
-                setUserInfo(userData);
+                const res = await API.get(`/users/${user.id}`, {withCredentials: true}); 
+                setUserInfo(res.data);
             }
             getInfo()
         } catch (error) {

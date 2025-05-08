@@ -11,6 +11,7 @@ import { AuthProvider } from './api/AuthContext';
 import { BookingPage } from './pages/BookingPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { EditProfilePage } from './pages/EditProfilePage';
+import { ConfirmBookingPage } from './pages/ConfirmBookingPage';
 
 function App() {
   return (
@@ -31,6 +32,11 @@ function App() {
               <Route path='/booking/:flightId' element={
                 <ProtectedRoute>
                   <BookingPage />
+                </ProtectedRoute>
+              } />
+              <Route path='/:userId/confirm/:flightId' element={
+                <ProtectedRoute>
+                  <ConfirmBookingPage />
                 </ProtectedRoute>
               } />
               <Route path='/profile' element={

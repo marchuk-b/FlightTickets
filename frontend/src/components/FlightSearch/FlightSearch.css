@@ -44,7 +44,7 @@
 }
 .flightsearch__parameters {
     display: grid;
-    grid-template-columns: 1fr 1fr 120px 200px;
+    grid-template-columns: 1fr 1fr 200px;
     column-gap: 30px;
     align-items: center;
 }  
