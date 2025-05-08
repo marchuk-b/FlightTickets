@@ -1,0 +1,87 @@
+.ticketcard {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 8px;
+    background-color: #fff;
+
+    box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+}
+.ticketcard__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+.ticketcard__flight-name {
+    font-weight: 700;
+    font-size: 18px;
+}
+.ticketcard__flight-direction {
+    color: #6B7280;
+}
+.ticketcard__flight-status {
+    font-size: 12px;
+    font-weight: 500;
+    height: 22px;
+    padding: 2px 10px;
+    border-radius: 10px;
+}
+.ticketcard__main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-bottom: 20px; */
+}
+.ticketcard__section { 
+    text-align: left;
+}
+.ticketcard__title {
+    font-weight: 500;
+}
+.ticketcard__time {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 3px 0;
+}
+.ticketcard__date {
+    color: #6B7280;
+}
+.ticketcard__price {
+    color: #6B7280;
+}
+.ticketcard__price-value {
+    display: block;
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 2px;
+}
+.ticketcard__btn {
+    padding: 8px 16px;
+    height: 36px;
+    border-radius: 8px;
+    border-style: none;
+    background: #1B9AF5;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+.ticketcard__btn.disabled {
+    background: #E5E7EB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+}
+.ticketcard__btn.disabled:hover {
+    background: #E5E7EB;
+    color: #9CA3AF;
+}
+.ticketcard__btn:hover {
+    background: #0E7AC1;
+    color: #fff;
+}
+.ticketcard__flight-icon {
+    width: 16px;
+    height: 16px;
+}
