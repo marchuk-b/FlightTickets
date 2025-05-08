@@ -22,5 +22,6 @@ router.post('/',[
 router.get('/', ticketController.getTickets);
 router.get('/:id', ticketController.getTicket);
 router.delete('/:id', ticketController.deleteTicket);
+router.get('/user-reserved-seats/:userId/:flightId', ticketController.getUserReservedSeats);
 
 module.exports = router;

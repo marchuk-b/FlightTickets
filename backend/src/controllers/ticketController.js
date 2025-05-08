@@ -1,4 +1,5 @@
 const Ticket = require('../models/Ticket');
+const Flight = require('../models/Flight');
 const { validationResult } = require('express-validator');
 
 class ticketController {
@@ -9,10 +10,10 @@ class ticketController {
     }
     
     try {
-      const { user, email, tel, flight, reservedSeats, price } = req.body;
+      const { user, name, surName, email, tel, flight, reservedSeats, price } = req.body;
 
       const newTicket = new Ticket({
-        user, email, tel, flight, reservedSeats, price 
+        user, name, surName, email, tel, flight, reservedSeats, price 
       });
   
       const savedTicket = await newTicket.save();
@@ -60,6 +61,31 @@ class ticketController {
       res.status(400).json({ message: 'Error while deleting ticket' });
     }
   }
+
+  async getUserReservedSeats(req, res) {
+    try {
+      const { userId, flightId } = req.params;
+  
+      const flight = await Flight.findById(flightId).populate('seats');
+  
+      if (!flight) {
+        return res.status(404).json({ message: 'Рейс не знайдено' });
+      }
+  
+      const reservedSeats = flight.seats
+        .filter(seat => seat.reservedBy?.toString() === userId)
+        .map(seat => ({
+          seatId: seat.seatId,
+          seatClass: seat.seatClass
+        }));
+  
+      res.json({ reservedSeats });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Помилка при отриманні зарезервованих місць' });
+    }
+  }
+  
 }
 
 module.exports = new ticketController();

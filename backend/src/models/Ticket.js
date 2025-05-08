@@ -2,10 +2,12 @@ const { Schema, model } = require('mongoose');
 
 const TicketSchema = new Schema({
     user: { type: Schema.Types.ObjectId, ref: 'User' },
+    name: { type: String, required: true },
+    surName: { type: String, required: true },
     email: { type: String, required: true },
     tel: { type: String, required: true },
     flight: { type: Schema.Types.ObjectId, ref: 'Flight', required: true },
-    reservedSeats: [{ type: Schema.Types.ObjectId, ref: 'Seat', required: true }],
+    reservedSeats: [{ type: String, required: true }],
     price: { type: Number, required: true },
     status: {
         type: String,
