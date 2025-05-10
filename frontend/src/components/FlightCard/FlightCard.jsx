@@ -23,7 +23,7 @@ export const FlightCard = ({flightInfo}) => {
     <div className="flightcard">
       <div className="flightcard__header">
         <div className="flightcard__flight-info">
-          <div className="flightcard__flight-name">Рейс {flightInfo.flightname}</div>
+          <div className="flightcard__flight-name">Рейс {flightInfo.flightName}</div>
           <div className="flightcard__flight-direction">{flightInfo.direction.from + ' → ' + flightInfo.direction.to}</div>
         </div>
         <div className={`flightcard__flight-status ${statusClass}`}>
