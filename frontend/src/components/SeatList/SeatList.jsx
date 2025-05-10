@@ -48,13 +48,13 @@ export const SeatList = ({
               className={`seatlist__seats__item ${
                 reservedSeats.includes(seat.seatId)
                   ? 'unavailable'
-                  : selectedSeats.includes(seat.seatId)
+                  : selectedSeats.some(s => s.seatId === seat.seatId)
                   ? 'selected'
                   : 'available'
               }`}
               onClick={() => {
-                if (!reservedSeats.includes(seat.seatId)) {
-                  onSeatClick(seat.seatId);
+                if (!reservedSeats.includes(seat.seatId)) {  // Тепер перевірка правильна
+                  onSeatClick(seat);
                 }
               }}
             >

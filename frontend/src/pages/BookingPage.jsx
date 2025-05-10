@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import './BookingPage.css'
 import { SeatList } from '../components/SeatList/SeatList'
 import API from '../api/axios.js'
 import { useAuth } from '../api/AuthContext.js'
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 export const BookingPage = () => {
     const { flightId } = useParams();
@@ -14,8 +14,15 @@ export const BookingPage = () => {
     const [selectedSeats, setSelectedSeats] = useState([]);
     const [reservedSeats, setReservedSeats] = useState([]);
     const [flightClass, setFlightClass] = useState('economy');
-    const [loading, setLoading] = React.useState(true);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        if (location.state?.selectedSeats) {
+            setSelectedSeats(location.state.selectedSeats);
+        }
+    }, [location.state]);
 
     useEffect(() => {
         const fetchFlight = async () => {
@@ -46,21 +53,26 @@ export const BookingPage = () => {
         return <div>Завантаження...</div>;
     }
 
-    const handleSeatClick = (seatId) => {
-        setSelectedSeats((prevSelected) =>
-          prevSelected.includes(seatId)
-            ? prevSelected.filter((s) => s !== seatId)
-            : [...prevSelected, seatId]
-        );
-      };
+    const handleSeatClick = (seat) => {
+    setSelectedSeats((prevSelected) => {
+        const isSelected = prevSelected.some(s => s.seatId === seat.seatId);
+        if (isSelected) {
+            return prevSelected.filter(s => s.seatId !== seat.seatId);
+        }
+        return [...prevSelected, { seatId: seat.seatId, seatClass: flightClass }];
+    });
+};
 
     const handleReservation = async () => {
         try {
             if (selectedSeats.length === 0) return alert("Ви не вибрали жодного місця");
-            
-            await API.patch(`/flights/${flightId}/seats`, {seatIds: selectedSeats, user: user});
+
             console.log(selectedSeats)
-            navigate(`/${user.id}/confirm/${flightId}`)
+            navigate(`/${user.id}/confirm/${flightId}`, {
+                state: {
+                    selectedSeats: selectedSeats
+                }
+            });
         } catch (err) {
             console.error(err);
             alert("Помилка під час бронювання.");

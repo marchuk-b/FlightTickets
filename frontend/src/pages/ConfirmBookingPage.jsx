@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import './ConfirmBookingPage.css'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import API from '../api/axios';
+import { useAuth } from '../api/AuthContext';
 
 export const ConfirmBookingPage = () => {
     const navigate = useNavigate();
     const { userId, flightId } = useParams();
+    const { user } = useAuth();
     const [flight, setFlight] = useState(null);
-    const [reservedSeats, setReservedSeats] = useState(null);
     const [loading, setLoading] = React.useState(true);
+
+    const location = useLocation();
+    const { selectedSeats } = location.state;
+    const [reservedSeats, setReservedSeats] = useState(null);
+
     const [name, setName] = useState('');
     const [surName, setSurName] = useState('');
     const [email, setEmail] = useState('');
@@ -21,9 +27,8 @@ export const ConfirmBookingPage = () => {
                 const res = await API.get(`/flights/${flightId}`)
                 setFlight(res.data)
 
-                const reservedSeatsData = await API.get(`/tickets/user-reserved-seats/${userId}/${flightId}`)
-                setReservedSeats(reservedSeatsData.data.reservedSeats)
-                console.log(reservedSeatsData.data.reservedSeats)
+                console.log(selectedSeats)
+                setReservedSeats(selectedSeats);
             } catch (error) {
                 console.error('Error fetching flight data:', error)
             } finally {
@@ -31,13 +36,13 @@ export const ConfirmBookingPage = () => {
             }
         }
         fetchFlight()
-    }, [flightId, userId]);
+    }, [flightId, selectedSeats]);
 
     if (loading || !flight) {
         return <div>Завантаження...</div>;
     }
 
-    const reservedClasses = reservedSeats.map(s => s.seatClass);
+    const reservedClasses = selectedSeats.map(s => s.seatClass);
 
     const createTicket = async () => {
         const ticketData = {
@@ -53,13 +58,19 @@ export const ConfirmBookingPage = () => {
     
         try {
             await API.post('/tickets/', ticketData);
+            await API.patch(`/flights/${flightId}/seats`, {seatIds: selectedSeats.map(s => s.seatId), user: user});
             alert('Успішно заброньовано!');
-            navigate('/profile'); // або інша сторінка
+            navigate('/profile');
         } catch (error) {
             console.error(error);
             alert('Помилка при бронюванні');
         }
     };
+
+    const goBack = async () => {
+        navigate(`/booking/${flightId}`, { state: { selectedSeats }})
+    }
+
 
     return (
     <div className='confirmpage'>
@@ -154,7 +165,7 @@ export const ConfirmBookingPage = () => {
                     </div>
                 </div>
                 <div className="confirmpage__btns">
-                    <button className="confirmpage__btn cancel" onClick={() => navigate('/')}>Скасувати</button>
+                    <button className="confirmpage__btn cancel" onClick={goBack}>Повернутися</button>
                     <button className="confirmpage__btn" onClick={createTicket}>Забронювати</button>
                 </div>
             </div>
