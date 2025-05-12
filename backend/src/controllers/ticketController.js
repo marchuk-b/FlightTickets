@@ -1,5 +1,6 @@
 const Ticket = require('../models/Ticket');
 const Flight = require('../models/Flight');
+const User = require('../models/User');
 const { validationResult } = require('express-validator');
 
 class ticketController {
@@ -10,19 +11,26 @@ class ticketController {
     }
     
     try {
-      const { user, name, surName, email, tel, flight, reservedSeats, price } = req.body;
+      const { user, name, surName, email, tel, flight, reservedSeats = [], seatClasses = [], price } = req.body;
+
+      // Перевірка існування користувача та рейсу
+      const existingUser = await User.findById(user);
+      if (!existingUser) return res.status(404).json({ message: 'User not found' });
+
+      const existingFlight = await Flight.findById(flight);
+      if (!existingFlight) return res.status(404).json({ message: 'Flight not found' });
 
       const newTicket = new Ticket({
-        user, name, surName, email, tel, flight, reservedSeats, price 
+        user, name, surName, email, tel, flight, reservedSeats, seatClasses, price 
       });
-  
+
       const savedTicket = await newTicket.save();
       res.status(201).json(savedTicket);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Error of creating a Ticket' });
+      console.error("Ticket creation error:", error);
+      res.status(500).json({ message: 'Error creating a Ticket', error: error.message });
     }
-  }
+}
 
   async getTickets(req, res) {
     try {

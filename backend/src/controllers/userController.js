@@ -20,7 +20,6 @@ class userController {
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
-            console.log(user)
             res.json(user);
         } catch {
             res.status(401).json({ message: "Error while getting user" });

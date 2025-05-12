@@ -8,6 +8,7 @@ const TicketSchema = new Schema({
     tel: { type: String, required: true },
     flight: { type: Schema.Types.ObjectId, ref: 'Flight', required: true },
     reservedSeats: [{ type: String, required: true }],
+    seatClasses: [{ type: String, required: true }],
     price: { type: Number, required: true },
     status: {
         type: String,

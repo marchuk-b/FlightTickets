@@ -1,6 +1,11 @@
 const { Schema, model } = require('mongoose');
 
 const SeatSchema = new Schema({
+  flightId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Flight',
+    required: true
+  },
   seatId: {
     type: String,
     required: true,
@@ -20,11 +25,11 @@ const SeatSchema = new Schema({
     default: null,
   },
   row: {
-    type: Number,
+    type: String,
     required: true,
   },
   column: {
-    type: String,
+    type: Number,
     required: true,
   }
 });

@@ -29,51 +29,22 @@ class flightController {
     }
 
     async createFlight(req, res) {
-        try {
-            const errors = validationResult(req)
-            if (!errors.isEmpty()) {
-                return res.status(400).json({message: 'Validation error', errors})
-            }
-            const {
-                flightName, direction, departureTime, departureDate,
-                arrivalTime, arrivalDate, price, status, plane: planeId
-            } = req.body;
-    
-          const plane = await Plane.findById(planeId);
-          if (!plane) return res.status(404).json({ error: 'Plane not found' });
-      
-          const seats = [];
-          const classPrefix = { business: 'B', economy: 'E' };
-      
-          for (const classType of ['business', 'economy']) {
-            // В залежності від класу використовуємо відповідну конфігурацію
-            const config = classType === 'business' ? plane.businessPart : plane.economPart;
-            
-            // Задаємо кількість рядів з даних конфігурації
-            let rowNumber = 1;
-            for (let i = 0; i < config.rows; i++) {
-              let seatLetterIndex = 0;
-              // Загальна кількість позицій у ряду = кількість місць (columns) плюс кількість проходів (aisles)
-              for (let j = 0; j < config.columns + config.aisles.length; j++) {
-                // Пропускаємо позиції, які відповідають проходу
-                if (config.aisles.includes(j)) continue;
-      
-                const seatLetter = String.fromCharCode(65 + seatLetterIndex); // A, B, C...
-                const seatId = `${classPrefix[classType]}${seatLetter}${rowNumber}`;
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ message: 'Validation error', errors });
+        }
+        const {
+            flightName, direction, departureTime, departureDate,
+            arrivalTime, arrivalDate, price, status, plane: planeId
+        } = req.body;
 
-                
-                seats.push(new Seat({ seatId, seatClass: classType, row: rowNumber, column: seatLetter 
-                }));
-                seatLetterIndex++;
-              }
-              rowNumber++;
-            }
-          }
-      
-          const savedSeats = await Seat.insertMany(seats);
-          const seatIds = savedSeats.map((seat) => seat._id);
-      
-          const flight = await Flight.create({
+        const plane = await Plane.findById(planeId);
+        if (!plane) return res.status(404).json({ error: 'Plane not found' });
+
+        const seats = [];
+
+        const flight = await Flight.create({
             flightName,
             direction,
             departureTime,
@@ -82,16 +53,45 @@ class flightController {
             arrivalDate,
             price,
             status,
-            plane: planeId,
-            seats: seatIds
-          });
-      
-          res.status(201).json(flight);
-        } catch (error) {
-            console.log(error)
-            res.status(500).json({ error: 'Failed to create flight' });
+            plane: planeId
+        });
+
+        for (const classType of ['business', 'economy']) {
+            const config = classType === 'business' ? plane.businessPart : plane.economPart;
+
+            let rowNumber = 1;
+            for (let i = 0; i < config.rows; i++) {
+                let seatColumnIndex = 1;  
+                for (let j = 0; j < config.columns + config.aisles.length; j++) {
+                    if (config.aisles.includes(j)) continue;
+
+                    const seatId = `${seatColumnIndex}${String.fromCharCode(65 + i)}`; // Цифра для стовпця, буква для ряду
+                    
+                    seats.push(new Seat({
+                        seatId, 
+                        seatClass: classType, 
+                        row: i + 1, 
+                        column: seatColumnIndex,
+                        flightId: flight._id
+                    }));
+                    seatColumnIndex++;
+                }
+                rowNumber++;
+            }
         }
+
+        const savedSeats = await Seat.insertMany(seats);
+        const seatIds = savedSeats.map((seat) => seat._id);
+
+        flight.seats = seatIds;
+        await flight.save();
+
+        res.status(201).json(flight);
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: 'Failed to create flight' });
     }
+}
 
     async updateFlight(req, res) {
         try {
