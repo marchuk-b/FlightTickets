@@ -53,6 +53,7 @@ export const ConfirmBookingPage = () => {
             tel,
             flight: flightId,
             reservedSeats: reservedSeats.map(s => s.seatId),
+            seatClasses: reservedClasses,
             price: reservedSeats.length * (reservedClasses[0] === 'business' ? 2000 : 1000) // приклад
         };
     

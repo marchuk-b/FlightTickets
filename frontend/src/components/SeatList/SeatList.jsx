@@ -10,7 +10,11 @@ export const SeatList = ({
   planeConfig,
 }) => {
   if (!planeConfig || !planeConfig.columns || !Array.isArray(planeConfig.aisles)) {
-    return <div>Конфігурація літака не визначена</div>;
+    return <div className="seatlist__error">Конфігурація літака не визначена</div>;
+  }
+
+  if (!seatsData.length) {
+    return <div className="seatlist__empty">Немає доступних місць для вибору</div>;
   }
 
   const groupedByRow = seatsData.reduce((acc, seat) => {
@@ -20,24 +24,17 @@ export const SeatList = ({
     return acc;
   }, {});
 
-  // Отримуємо відсортовані ключі рядків (номери рядків)
   const sortedRowKeys = Object.keys(groupedByRow).sort((a, b) => Number(a) - Number(b));
 
-  // Функція для відображення окремого ряду з урахуванням проходів
   const renderRow = (rowSeats, rowNumber) => {
-    // Загальна кількість позицій визначається як кількість крісел плюс "
-    // кількість проходів (скажімо, крісла займають стовпці, а проходи — задані позиції)
     const totalPositions = planeConfig.columns + planeConfig.aisles.length;
-    let seatIndex = 0; // Індекс по масиву сидінь для даного ряду
+    let seatIndex = 0;
     const rowElements = [];
 
     for (let pos = 0; pos < totalPositions; pos++) {
       if (planeConfig.aisles.includes(pos)) {
-        // Якщо позиція відповідає проходу, рендеримо порожній блок із класом для проходу
         rowElements.push(
-          <div key={`aisle-${rowNumber}-${pos}`} className="seatlist__seats__aisle">
-            {/* Сюди можна вставити іконку чи залишити порожнім */}
-          </div>
+          <div key={`aisle-${rowNumber}-${pos}`} className="seatlist__seats__aisle"></div>
         );
       } else {
         const seat = rowSeats[seatIndex];
@@ -53,7 +50,7 @@ export const SeatList = ({
                   : 'available'
               }`}
               onClick={() => {
-                if (!reservedSeats.includes(seat.seatId)) {  // Тепер перевірка правильна
+                if (!reservedSeats.includes(seat.seatId)) {
                   onSeatClick(seat);
                 }
               }}
@@ -62,11 +59,8 @@ export const SeatList = ({
             </div>
           );
         } else {
-          // Якщо для даного не-aisle місця не знайдено крісло, вставляємо пустий placeholder (це на випадок, якщо дані неповні)
           rowElements.push(
-            <div key={`empty-${rowNumber}-${pos}`} className="seatlist__seats__empty">
-              {/* Порожнє місце */}
-            </div>
+            <div key={`empty-${rowNumber}-${pos}`} className="seatlist__seats__empty"></div>
           );
         }
         seatIndex++;
@@ -80,13 +74,11 @@ export const SeatList = ({
   };
 
   return (
-    <div className={`
-      seatlist ${flightClass === 'business' ? 'business' : ''} ${planeConfig.planeType}`}>
+    <div className={`seatlist ${flightClass === 'business' ? 'business' : ''} ${planeConfig.planeType}`}>
       <div className="seatlist__seats">
         {sortedRowKeys.map((rowKey) => {
-          const rowSeats = groupedByRow[rowKey].sort((a, b) =>
-            a.column.localeCompare(b.column)
-          );
+          const rowSeats = groupedByRow[rowKey]
+            .sort((a, b) => String(a.column).localeCompare(String(b.column)));
           return renderRow(rowSeats, rowKey);
         })}
       </div>
