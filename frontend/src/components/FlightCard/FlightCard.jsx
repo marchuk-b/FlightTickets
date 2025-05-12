@@ -1,10 +1,13 @@
-import React from 'react'
 import './FlightCard.css'
 import planeIcon from '../../assets/icons/plane.svg'
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Modal } from '../Modal/Modal.jsx'
 
 export const FlightCard = ({flightInfo}) => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  
   const statusClass = {
     "За розкладом": "flightcard__flight-status--on-time",
     "Запізнення": "flightcard__flight-status--delayed",
@@ -20,7 +23,7 @@ export const FlightCard = ({flightInfo}) => {
   }
 
   return (
-    <div className="flightcard">
+    <div className="flightcard" onClick={() => setOpen(true)}>
       <div className="flightcard__header">
         <div className="flightcard__flight-info">
           <div className="flightcard__flight-name">Рейс {flightInfo.flightName}</div>
@@ -60,6 +63,54 @@ export const FlightCard = ({flightInfo}) => {
           Забронювати
         </button>
       </div>
+
+      <Modal open={open} onOpenChange={setOpen} title="Інформація про рейс">
+        <div className="modal">
+          <div className="modal__inner">
+              <div className="modal__block">
+                  <div className="modal__block-content">
+                      <div className="modal__block-item">
+                          <div className="modal__block-label">Назва рейсу:</div>
+                          <div className="modal__block-text">{flightInfo?.flightName}</div>
+                      </div>
+                      <div className="modal__block-item">
+                          <div className="modal__block-label">Статус рейсу</div>
+                          <div className="modal__block-text">{flightInfo?.status}</div>
+                      </div>
+                      <div className="modal__block-item">
+                          <div className="modal__block-label">К-сть місць</div>
+                          <div className="modal__block-text">{flightInfo?.seats.length}</div>
+                      </div>
+                      <div className="modal__block-item">
+                          <div className="modal__block-label">Ціна квитка: </div>
+                          <div className="modal__block-text"></div>
+                      </div>
+                      
+                      <div className="modal__block-item">
+                          <div className="modal__block-label">Звідки:</div>
+                          <div className="modal__block-text">{flightInfo?.direction.from}</div>
+                      </div>
+                      <div className="modal__block-item">
+                          <div className="modal__block-label">Куди:</div>
+                          <div className="modal__block-text">{flightInfo?.direction.to}</div>
+                      </div>
+                      <div className="modal__block-item">
+                          <div className="modal__block-label">Час вильоту:</div>
+                          <div className="modal__block-text">
+                              {formatDate(flightInfo?.departureDate)} {flightInfo?.departureTime}
+                          </div>
+                      </div>
+                      <div className="modal__block-item">
+                          <div className="modal__block-label">Час прильоту:</div>
+                          <div className="modal__block-text">
+                              {formatDate(flightInfo?.arrivalDate)} {flightInfo?.arrivalTime}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }
