@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import './EditProfilePage.css'
-import userImg from '../assets/user.png'
 import { useAuth } from '../api/AuthContext'
 import API from '../api/axios'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 export const EditProfilePage = () => {
     const { user } = useAuth();
@@ -39,23 +39,23 @@ export const EditProfilePage = () => {
         const { username, email, newPassword, confirmPassword } = userInfo;
       
         if (!username.trim() || !email.trim()) {
-          alert("Будь ласка, заповніть ім'я та email.");
+          toast.warn("Будь ласка, заповніть ім'я та email.");
           return;
         }
       
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-          alert("Введіть коректний email.");
+          toast.warn("Введіть коректний email.");
           return;
         }
       
         if (newPassword || confirmPassword) {
           if (newPassword.length < 6) {
-            alert("Пароль має містити щонайменше 6 символів.");
+            toast.warn("Пароль має містити щонайменше 6 символів.");
             return;
           }
           if (newPassword !== confirmPassword) {
-            alert("Паролі не співпадають.");
+            toast.warn("Паролі не співпадають.");
             return;
           }
         }
@@ -68,12 +68,13 @@ export const EditProfilePage = () => {
           };
       
           await API.put(`/users/${user.id}`, payload, { withCredentials: true });
-          alert('Профіль оновлено');
           setUserInfo({ ...userInfo, newPassword: '', confirmPassword: '' });
+          
+          toast.success('Профіль оновлено');
           navigate('/profile');
         } catch (error) {
           console.error(error);
-          alert('Помилка при оновленні профілю');
+          toast.error('Помилка при оновленні профілю');
         }
     };
       

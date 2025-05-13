@@ -1,8 +1,8 @@
-import React from 'react'
 import { Form } from '../components/Form/Form'
 import API from '../api/axios'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../api/AuthContext'
+import { toast } from 'react-toastify'
 
 export const LoginPage = () => {
   const navigate = useNavigate()
@@ -10,14 +10,15 @@ export const LoginPage = () => {
 
   const handleLogin = async (formData) => {
     try {
-      const { data } = await API.post('/auth/login', formData) // відправляємо email і password
+      const { data } = await API.post('/auth/login', formData)
 
       login(data.user)
       console.log('Login successful:', data)
+      toast.success('Успішний вхід')
       navigate('/')
     } catch (error) {
       console.error('Login error:', error.response?.data?.message || error.message)
-      alert(error.response?.data?.message || 'Не вдалося увійти')
+      toast.error(error.response?.data?.message || 'Не вдалося увійти')
     }
   }
 

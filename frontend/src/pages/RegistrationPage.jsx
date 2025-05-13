@@ -1,22 +1,24 @@
-import React from 'react'
+import {useNavigate} from 'react-router-dom'
 import { Form } from '../components/Form/Form'
 import API from '../api/axios'
+import { toast } from 'react-toastify';
 
 export const RegistrationPage = () => {
+  const navigate = useNavigate()
+
   const handleRegister = async (formData) => {
     if (formData.password !== formData.confirmPassword) {
-      alert('Паролі не збігаються');
+      toast.error('Паролі не збігаються');
       return;
     }
 
     try {
       await API.post('/auth/register', formData)
-      alert('Реєстрація успішна!')
-      console.log('Registration successful:')
+      toast.success('Реєстрація успішна!')
+      navigate('/login')
     } catch (error) {
       console.error('Registration error:', error.response?.data?.message || error.message)
-      alert(error.response?.data?.message || 'Не вдалося зареєструватися')
-      
+      toast.error(error.response?.data?.message || 'Не вдалося зареєструватися')
     }
   }
 

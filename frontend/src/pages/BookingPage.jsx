@@ -4,6 +4,7 @@ import { SeatList } from '../components/SeatList/SeatList'
 import API from '../api/axios.js'
 import { useAuth } from '../api/AuthContext.js'
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify'
 
 export const BookingPage = () => {
     const { flightId } = useParams();
@@ -26,26 +27,25 @@ export const BookingPage = () => {
 
     useEffect(() => {
         const fetchFlight = async () => {
-        try {
-            const res = await API.get(`/flights/${flightId}`)
-            setFlight(res.data)
-        
-            const planeRes = await API.get(`/planes/${res.data.plane}`)
-            setPlane(planeRes.data)
-        
-            const reservedSeatsData = await API.get(`/flights/${flightId}/reserved-seats`)
-            setReservedSeats(reservedSeatsData.data)
+            try {
+                const res = await API.get(`/flights/${flightId}`)
+                setFlight(res.data)
+            
+                const planeRes = await API.get(`/planes/${res.data.plane}`)
+                setPlane(planeRes.data)
+            
+                const reservedSeatsData = await API.get(`/flights/${flightId}/reserved-seats`)
+                setReservedSeats(reservedSeatsData.data)
 
-            const seatsRes = await API.get(`/flights/${flightId}/seats`)
-            setSeats(seatsRes.data)
-        
-        } catch (error) {
-            console.error('Error fetching flight data:', error)
-        } finally {
-            setLoading(false)
+                const seatsRes = await API.get(`/flights/${flightId}/seats`)
+                setSeats(seatsRes.data)
+            
+            } catch (error) {
+                console.error('Error fetching flight data:', error)
+            } finally {
+                setLoading(false)
+            }
         }
-        }
-        
         fetchFlight()
     }, [flightId]);
 
@@ -54,20 +54,19 @@ export const BookingPage = () => {
     }
 
     const handleSeatClick = (seat) => {
-    setSelectedSeats((prevSelected) => {
-        const isSelected = prevSelected.some(s => s.seatId === seat.seatId);
-        if (isSelected) {
-            return prevSelected.filter(s => s.seatId !== seat.seatId);
-        }
-        return [...prevSelected, { seatId: seat.seatId, seatClass: flightClass }];
-    });
-};
+        setSelectedSeats((prevSelected) => {
+            const isSelected = prevSelected.some(s => s.seatId === seat.seatId && s.seatClass === seat.seatClass);
+            if (isSelected) {
+                return prevSelected.filter(s => s.seatId !== seat.seatId);
+            }
+            return [...prevSelected, { seatId: seat.seatId, seatClass: flightClass }];
+        });
+    };
 
     const handleReservation = async () => {
         try {
-            if (selectedSeats.length === 0) return alert("Ви не вибрали жодного місця");
+            if (selectedSeats.length === 0) return toast.warn("Ви не вибрали жодного місця");
 
-            console.log(selectedSeats)
             navigate(`/${user.id}/confirm/${flightId}`, {
                 state: {
                     selectedSeats: selectedSeats
@@ -75,7 +74,7 @@ export const BookingPage = () => {
             });
         } catch (err) {
             console.error(err);
-            alert("Помилка під час бронювання.");
+            toast.error("Помилка під час бронювання.");
         }
     };
 
@@ -154,13 +153,13 @@ export const BookingPage = () => {
                             <div className="bookingpage__choice-class__seats-info__item unavailable">Зайняте</div>
                             <div className="bookingpage__choice-class__seats-info__item selected">Вибране</div>
                         </div>
-                        </div>
+                    </div>
 
                     <div className="bookingpage__choice-seat__list">
                         <SeatList
                             seatsData={seats.filter(s => s.seatClass === flightClass)}
                             flightClass={flightClass}
-                            selectedSeats={selectedSeats}
+                            selectedSeats={selectedSeats.filter(s => s.seatClass === flightClass)}
                             reservedSeats={reservedSeats}
                             onSeatClick={handleSeatClick}
                             planeConfig={planeConfig}

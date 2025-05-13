@@ -1,5 +1,4 @@
 import './App.css';
-import React from 'react';
 import Footer from './components/PageComponents/Footer/Footer';
 import Header from './components/PageComponents/Header/Header';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -12,6 +11,8 @@ import { BookingPage } from './pages/BookingPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { EditProfilePage } from './pages/EditProfilePage';
 import { ConfirmBookingPage } from './pages/ConfirmBookingPage';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
                 </ProtectedRoute>
               } />
             </Routes>
+              <ToastContainer position="top-right" autoClose={3000} />
           </div>
           <Footer />
         </div>

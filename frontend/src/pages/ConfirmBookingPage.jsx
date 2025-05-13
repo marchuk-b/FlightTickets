@@ -3,6 +3,7 @@ import './ConfirmBookingPage.css'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import API from '../api/axios';
 import { useAuth } from '../api/AuthContext';
+import { toast } from 'react-toastify'
 
 export const ConfirmBookingPage = () => {
     const navigate = useNavigate();
@@ -54,17 +55,17 @@ export const ConfirmBookingPage = () => {
             flight: flightId,
             reservedSeats: reservedSeats.map(s => s.seatId),
             seatClasses: reservedClasses,
-            price: reservedSeats.length * (reservedClasses[0] === 'business' ? 2000 : 1000) // приклад
+            price: reservedSeats.length * (reservedClasses[0] === 'business' ? flight.price + 500 : flight.price) 
         };
     
         try {
             await API.post('/tickets/', ticketData);
             await API.patch(`/flights/${flightId}/seats`, {seatIds: selectedSeats.map(s => s.seatId), user: user});
-            alert('Успішно заброньовано!');
+            toast.success('Успішно заброньовано!');
             navigate('/profile');
         } catch (error) {
             console.error(error);
-            alert('Помилка при бронюванні');
+            toast.error('Помилка при бронюванні');
         }
     };
 
