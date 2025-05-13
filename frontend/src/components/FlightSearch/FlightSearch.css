@@ -110,11 +110,11 @@
 
 @media screen and (max-width: 1150px) {
     .flightsearch__parameters {
-        grid-template-columns: 1fr 1fr 120px;
+        grid-template-columns: 1fr 1fr;
         gap: 15px;
     }
     .flightsearch__group--button {
-        grid-column: span 3;
+        grid-column: span 2;
         justify-self: stretch;
       }
 }

@@ -100,7 +100,17 @@
     .footer__column {
         width: 100%;
         align-items: center;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
+    }
+    .footer__column-links {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .footer__link {
+        font-size: 14px;
+        line-height: 15px;
+        justify-content: center;
     }
     .footer__title {
         font-size: 15px;

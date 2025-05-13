@@ -11,6 +11,7 @@
 }
 .seatlist.airbus {
     width: 520px;
+    margin: 0 auto;
 }
 .seatlist.boeing {
     width: 420px;
@@ -84,4 +85,72 @@
 .seatlist.business.boeing .seatlist__seats__aisle {
     width: 60px;
 }
-  
+
+@media screen and (max-width: 650px) {
+    .seatlist.business {
+        padding: 160px 20px 20px;
+    }
+    .seatlist.airbus {
+        width: 420px;
+    }
+    .seatlist.boeing {
+        width: 320px;
+    }
+    .seatlist.business.boeing {
+        width: 320px;
+    }
+    .seatlist.business.airbus {
+        width: 420px;
+    }
+    .seatlist__seats__aisle {
+        width: 20px;
+    }
+    .seatlist.business.boeing .seatlist__seats__aisle {
+        width: 40px;
+    }
+    .seatlist__seats__item {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+    .seatlist.business .seatlist__seats__item {
+        width: 40px;
+        height: 40px;
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 450px) {
+    .seatlist.airbus {
+        width: 300px;
+        padding: 10px;
+    }
+    .seatlist.boeing {
+        width: 250px;
+    }
+    .seatlist.business.boeing {
+        width: 250px;
+    }
+    .seatlist.business.airbus {
+        width: 300px;
+        padding-top: 100px;
+    }
+    .seatlist__seats__aisle {
+        width: 10px;
+    }
+    .seatlist.business.boeing .seatlist__seats__aisle {
+        width: 15px;
+    }
+    .seatlist__seats__item {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+    .seatlist.business .seatlist__seats__item {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+    .seatlist__seats__row {
+        margin-bottom: 3px;
+    }
+}

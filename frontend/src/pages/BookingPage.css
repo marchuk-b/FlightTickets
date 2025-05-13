@@ -156,3 +156,35 @@
 .bookingpage__btn:hover.cancel {
     background-color: #D1D5DB;
 }
+
+@media screen and (max-width: 880px) {
+    .bookingpage__choice-seat {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .bookingpage__choice-class {
+        min-height: 200px;
+    }
+    .bookingpage__choice-seat__list {
+        margin-top: 24px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .bookingpage__content {
+        padding: 20px;
+    }
+    .bookingpage__title {
+        font-size: 22px;
+    }
+    .bookingpage__choice-class__title {
+        margin: 16px 0 4px;
+    }
+    .bookingpage__choice-class__flightname {
+        margin-top: 16px;
+    }
+}
+@media screen and (max-width: 650px) {
+   .bookingpage__content {
+        padding: 15px;
+    }
+}
