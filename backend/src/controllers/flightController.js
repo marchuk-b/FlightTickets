@@ -10,7 +10,7 @@ class flightController {
             res.json(flights)
         } catch (error) {
             console.log(error)
-            res.status(400).json({message: 'Error while getting flights'})
+            res.status(400).json({message: 'Помилка під час отримання рейсів'})
         }
     }
 
@@ -19,12 +19,12 @@ class flightController {
             const { id } = req.params
             const flight = await Flight.findById(id)
             if (!flight) {
-                return res.status(404).json({message: 'Flight not found'})
+                return res.status(404).json({message: 'Рейс не знайдено'})
             }
             return res.json(flight)
         } catch (error) {
             console.log(error)
-            res.status(400).json({message: 'Error while getting flight'})
+            res.status(400).json({message: 'Помилка під час отримання рейсу'})
         }
     }
 
@@ -32,7 +32,7 @@ class flightController {
     try {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
-            return res.status(400).json({ message: 'Validation error', errors });
+            return res.status(400).json({ message: 'Помилка валідації', errors });
         }
         const {
             flightName, direction, departureTime, departureDate,
@@ -40,7 +40,7 @@ class flightController {
         } = req.body;
 
         const plane = await Plane.findById(planeId);
-        if (!plane) return res.status(404).json({ error: 'Plane not found' });
+        if (!plane) return res.status(404).json({ error: 'Літак не знайдено' });
 
         const seats = [];
 
@@ -89,7 +89,7 @@ class flightController {
         res.status(201).json(flight);
     } catch (error) {
         console.log(error)
-        res.status(500).json({ error: 'Failed to create flight' });
+        res.status(500).json({ error: 'Помилка під час створення рейсу' });
     }
 }
 
@@ -103,12 +103,12 @@ class flightController {
                 { new: true }
             );
             if (!flight) {
-                return res.status(404).json({ message: 'Flight not found' });
+                return res.status(404).json({ message: 'Рейс не знайдено' });
             }
             return res.json(flight);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: 'Error while updating flight' });
+            res.status(500).json({ message: 'Помилка під час оновлення рейсу' });
         }
     }
     async deleteFlight(req, res) {
@@ -116,12 +116,12 @@ class flightController {
             const { id } = req.params
             const flight = await Flight.findByIdAndDelete(id)
             if (!flight) {
-                return res.status(404).json({message: 'Flight not found'})
+                return res.status(404).json({message: 'Рейс не знайдено'})
             }
-            return res.json({ message: 'Flight deleted successfully' });
+            return res.json({ message: 'Рейс успішно видалено' });
         } catch (error) {
             console.log(error)
-            res.status(400).json({message: 'Error while deleting flight'})
+            res.status(400).json({message: 'Помилка під час видалення рейсу'})
         }
     }
 
@@ -130,12 +130,12 @@ class flightController {
             const { id } = req.params;
             const flight = await Flight.findById(id).populate('seats');
             if (!flight) {
-              return res.status(404).json({ message: 'Flight not found' });
+              return res.status(404).json({ message: 'Рейс не знайдено' });
             }
             return res.json(flight.seats);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: 'Error fetching seats' });
+            res.status(500).json({ message: 'Помилка під час отримання місць' });
         }
     }
 
@@ -144,7 +144,7 @@ class flightController {
         const { seatIds, user } = req.body;
       
         const flight = await Flight.findById(flightId).populate('seats');
-        if (!flight) return res.status(404).json({ message: 'Flight not found' });
+        if (!flight) return res.status(404).json({ message: 'Рейс не знайдено' });
       
         for (const seatId of seatIds) {
             const seat = flight.seats.find(s => {
@@ -153,7 +153,7 @@ class flightController {
             if (!seat) continue;
         
             if (seat.isReserved) {
-                return res.status(400).json({ message: `Seat ${seatId} already reserved` });
+                return res.status(400).json({ message: `Місце ${seatId} уже заброньовано` });
             }
         
             seat.isReserved = true;
@@ -161,16 +161,16 @@ class flightController {
             await seat.save();
         }
 
-        res.json({ message: "Seats reserved" });
+        res.json({ message: "Місця заброньовані" });
     }
     async getReservedSeats(req, res) {
         const { id } = req.params;
         const flight = await Flight.findById(id).populate('seats');
-        if (!flight) return res.status(404).json({ message: 'Flight not found' });
+        if (!flight) return res.status(404).json({ message: 'Рейс не знайдено' });
       
         const reservedSeats = flight.seats
         .filter(seat => seat.isReserved)
-        .map(seat => seat.seatId); // лише рядки типу "1A"
+        .map(seat => seat.seatId);
 
         res.json(reservedSeats);
     }
@@ -180,7 +180,7 @@ class flightController {
         const userId = req.user._id;
         
         const flight = await Flight.findById(id);
-        if (!flight) return res.status(404).json({ message: 'Flight not found' });
+        if (!flight) return res.status(404).json({ message: 'Рейс не знайдено' });
         
         const mySeats = flight.seats.filter(seat => seat.reservedBy?.toString() === userId.toString());
         res.json(mySeats);

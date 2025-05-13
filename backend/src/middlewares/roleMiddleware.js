@@ -9,7 +9,7 @@ module.exports = function (roles) {
                 req.headers.authorization?.split(' ')[1]; // або з Authorization
 
             if (!token) {
-                return res.status(401).json({ message: 'Unauthorized' });
+                return res.status(401).json({ message: 'Не авторизований' });
             }
             const {roles: userRoles} = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -20,11 +20,11 @@ module.exports = function (roles) {
                 }
             });
             if (!hasRole) {
-                return res.status(403).json({ message: 'You do not have access' });
+                return res.status(403).json({ message: 'Ви не маєте доступу' });
             }
             next();
         } catch (error) {
-            return res.status(401).json({ message: 'Unauthorized' });
+            return res.status(401).json({ message: 'Не авторизований' });
         }
     };
 

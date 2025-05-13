@@ -9,7 +9,7 @@ class userController {
             res.json(users)
         } catch (error) {
             console.log(error)
-            res.status(400).json({message: 'Error while getting users'})
+            res.status(400).json({message: 'Помилка під час отримання користувачів'})
         }
     }
 
@@ -18,11 +18,11 @@ class userController {
         try {
             const user = await User.findById(userId)
             if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+                return res.status(404).json({ message: 'Користувача не знайдено' });
             }
             res.json(user);
         } catch {
-            res.status(401).json({ message: "Error while getting user" });
+            res.status(401).json({ message: "Помилка під час отримання користувача" });
         }
     }
 
@@ -31,12 +31,12 @@ class userController {
         try {
             const user = await User.findByIdAndDelete(userId)
             if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+                return res.status(404).json({ message: 'Користувача не знайдено' });
             }
-            res.json({ message: 'User deleted' });
+            res.json({ message: 'Користувача успішно видалено' });
         } catch (error) {
             console.log(error)
-            res.status(400).json({message: 'Error while deleting user'})
+            res.status(400).json({message: 'Помилка під час видалення користувача'})
         }   
     }
 
@@ -46,16 +46,14 @@ class userController {
         const { username, email, password } = req.body;
 
         try {
-            // Перевірка на зайнятий username
             const existingUsername = await User.findOne({ username });
             if (existingUsername && existingUsername._id.toString() !== userId) {
-                return res.status(400).json({ message: 'Username is already taken' });
+                return res.status(400).json({ message: 'Користувач з таким іменем уже існує' });
             }
 
-            // Перевірка на зайнятий email
             const existingEmail = await User.findOne({ email });
             if (existingEmail && existingEmail._id.toString() !== userId) {
-                return res.status(400).json({ message: 'Email is already taken' });
+                return res.status(400).json({ message: 'Користувач з такою поштою уже існує' });
             }
 
             const updateData = { username, email };
@@ -67,13 +65,13 @@ class userController {
 
             const user = await User.findByIdAndUpdate(userId, updateData, { new: true });
             if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+                return res.status(404).json({ message: 'Користувача не знайден' });
             }
 
             res.json(user);
         } catch (error) {
             console.log(error);
-            res.status(400).json({ message: 'Error while updating user' });
+            res.status(400).json({ message: 'Помилка під час оновлення користувача' });
         }
     }
     
@@ -84,17 +82,17 @@ class userController {
         try {
             const user = await User.findById(userId);
             if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+                return res.status(404).json({ message: 'Користувача не знайдено' });
             }
     
             const userRole = await Role.findOne({ value: role });
             if (!userRole) {
-                return res.status(404).json({ message: 'Role not found' });
+                return res.status(404).json({ message: 'Роль не знайдено' });
             }
     
             // Перевірити, чи роль уже є
             if (user.roles.includes(userRole.value)) {
-                return res.status(400).json({ message: 'User already has this role' });
+                return res.status(400).json({ message: 'Користувач уже має таку роль' });
             }
     
             user.roles.push(userRole.value);
@@ -103,7 +101,7 @@ class userController {
             res.json(user);
         } catch (error) {
             console.log(error);
-            res.status(400).json({ message: 'Error while adding role to user' });
+            res.status(400).json({ message: 'Помилка під час додавання ролі' });
         }
     }
 
@@ -114,16 +112,16 @@ class userController {
         try {
             const user = await User.findById(userId);
             if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+                return res.status(404).json({ message: 'Користувача не знайдено' });
             }
     
             const userRole = await Role.findOne({ value: role });
             if (!userRole) {
-                return res.status(404).json({ message: 'Role not found' });
+                return res.status(404).json({ message: 'Роль не знайдено' });
             }
 
             if (!user.roles.includes(userRole.value)) {
-                return res.status(400).json({ message: 'User doesn`t have this role' });
+                return res.status(400).json({ message: 'Користувач не має такої ролі' });
             }
             user.roles.pop(userRole.value);
 
@@ -132,7 +130,7 @@ class userController {
             res.json(user);
         } catch (error) {
             console.log(error);
-            res.status(400).json({ message: 'Error while adding role to user' });
+            res.status(400).json({ message: 'Помилка під час видалення ролі' });
         }
     }
 }

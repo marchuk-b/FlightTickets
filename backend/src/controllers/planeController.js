@@ -16,7 +16,7 @@ class planeController {
       res.status(201).json(savedPlane);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error of creating a plane' });
+      res.status(500).json({ message: 'Помилка під час створення літака' });
     }
   }
 
@@ -26,7 +26,7 @@ class planeController {
       res.json(planes);
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Error while getting planes' });
+      res.status(500).json({ message: 'Помилка під час отримання літаків' });
     }
   }
 
@@ -35,12 +35,12 @@ class planeController {
       const { id } = req.params;
       const plane = await Plane.findById(id);
       if (!plane) {
-        return res.status(404).json({ message: 'Plane not found' });
+        return res.status(404).json({ message: 'Літак не знайдено' });
       }
       return res.json(plane);
     } catch (error) {
       console.error(error);
-      res.status(400).json({ message: 'Error while getting plane' });
+      res.status(400).json({ message: 'Помилка під час отримання літака' });
     }
   }
 
@@ -49,12 +49,12 @@ class planeController {
       const { id } = req.params;
       const plane = await Plane.findByIdAndDelete(id);
       if (!plane) {
-        return res.status(404).json({ message: 'Plane not found' });
+        return res.status(404).json({ message: 'Літак не знайдено' });
       }
-      return res.json({ message: 'Plane deleted successfully' });
+      return res.json({ message: 'Літак успішно видалено' });
     } catch (error) {
       console.error(error);
-      res.status(400).json({ message: 'Error while deleting plane' });
+      res.status(400).json({ message: 'Помилка під час видалення літака' });
     }
   }
 }
