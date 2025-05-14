@@ -185,6 +185,45 @@ class flightController {
         const mySeats = flight.seats.filter(seat => seat.reservedBy?.toString() === userId.toString());
         res.json(mySeats);
     }
+
+    async searchFlights(req, res) {
+        try {
+            const { from, to, departure, roundTrip } = req.query;
+
+            const formattedDeparture = departure.trim();
+
+            if (roundTrip === 'true') {
+                const outboundQuery = {
+                    direction: { from, to },
+                    departureDate: formattedDeparture
+                };
+
+                const returnQuery = {
+                    direction: { from: to, to: from },
+                    departureDate: formattedDeparture // або інша дата, якщо буде returnDate
+                };
+
+                const [outboundFlights, returnFlights] = await Promise.all([
+                    Flight.find(outboundQuery),
+                    Flight.find(returnQuery)
+                ]);
+
+                res.json({ outboundFlights, returnFlights });
+            } else {
+                const query = {
+                    direction: { from, to },
+                    departureDate: formattedDeparture
+                };
+
+                const flights = await Flight.find(query);
+                res.json(flights);
+            }
+        } catch (error) {
+            console.error("Помилка при пошуку рейсів:", error);
+            res.status(500).json({ message: 'Помилка при пошуку рейсів' });
+        }
+    }
+
 }
 
 module.exports = new flightController();

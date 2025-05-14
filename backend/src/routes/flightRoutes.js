@@ -4,6 +4,7 @@ const controller = require('../controllers/flightController');
 const roleMiddleware = require('../middlewares/roleMiddleware');
 const authMiddleware = require('../middlewares/authMiddleware');
 
+router.get('/search', controller.searchFlights);
 router.get('/', controller.getFlights);
 router.get('/:id', controller.getFlight);
 router.post('/', roleMiddleware(['ADMIN']), controller.createFlight);
