@@ -83,7 +83,8 @@ export const FlightCard = ({flightInfo}) => {
                       </div>
                       <div className="modal__block-item">
                           <div className="modal__block-label">Ціна квитка: </div>
-                          <div className="modal__block-text"></div>
+                          <div className="modal__block-text">Економ: {flightInfo.price} UAH</div>
+                          <div className="modal__block-text">Бізнес: {flightInfo.price + 500} UAH</div>
                       </div>
                       
                       <div className="modal__block-item">

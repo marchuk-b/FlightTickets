@@ -2,27 +2,49 @@
   background-color: rgba(0, 0, 0, 0.6);
   position: fixed;
   inset: 0;
+  z-index: 1000;
 }
 .modal__root {
   padding: 0 20px;
 }
 .modal__content {
-  background-color: white;
+  background-color: #fff;
   border-radius: 8px;
   padding: 24px;
   width: 100%;
-  max-width: 750px;
+  max-width: 650px;
   margin: auto;
   position: fixed;
   top: 50%;
   left: 50%;
+  z-index: 1001;
   transform: translate(-50%, -50%);
+}
+.modal__content.ticket {
+  background-color: transparent;
+  max-width: 600px;
 }
 
 .modal__title {
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 24px;
+}
+.modal__title.ticket {
+  background-color: #fff;
+  padding: 18px 24px 0;
+  border-radius: 8px 8px 0 0;
+}
+.modal__subtitle {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 5px 0 24px;
+  border-radius: 0 0 8px 8px;
+  color: #4B5563;
+}
+.modal__subtitle.ticket {
+  background-color: #fff;
+  margin: -1px 0 14px;
+  padding: 6px 24px 10px;
 }
 .modal__close {
   position: absolute;
@@ -33,18 +55,39 @@
   border: none;
   cursor: pointer;
 }
-.modal__block:not(:last-child) {
-  margin-bottom: 24px;
+.modal__inner.ticket {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.modal__block.ticket {
+  padding: 24px;
+  background-color: #fff;
+}
+.modal__block.ticket:first-child {
+  border-radius: 8px 0 0 8px;
+  margin-right: -1px;
+}
+.modal__block.ticket:nth-child(2) {
+  border-radius: 0 5px 5px 0;
+}
+.modal__block.ticket:last-child {
+  border-radius: 5px 8px 8px 5px;
+  border-left: 3px dashed #4B5563;
 }
 .modal__block-title {
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 .modal__block-content {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+}
+.modal__block-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
 }
 .modal__block-label {
   font-size: 16px;
@@ -56,6 +99,19 @@
   font-size: 15px;
   font-weight: 500;
   line-height: 20px;
+}
+.modal__delete-btn {
+  display: block;
+  margin: 10px 0 0 auto;
+  max-width: 184px;
+  width: 100%;
+  padding: 5px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .2s linear;
+}
+.modal__delete-btn:hover {
+  background-color: #dbdbdb;
 }
 
 @media screen and (max-width: 880px) {
@@ -70,6 +126,56 @@
   .modal__content {
     max-width: 400px;
   }
+  .modal__title {
+    font-size: 20px;
+  }
+  .modal__title.ticket {
+    padding: 14px 16px 0;
+  }
+  .modal__subtitle.ticket {
+    margin: -1px 0 14px;
+    padding: 6px 16px 10px;
+    line-height: 1;
+  }
+  .modal__content.ticket {
+    max-width: 350px;
+  }
+  .modal__inner.ticket {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .modal__block.ticket {
+    padding: 16px;
+  }
+  .modal__block.ticket:first-child {
+    border-radius: 8px 8px 0 0;
+    margin-right: 0;
+    margin-bottom: -1px;
+  }
+  .modal__block.ticket:nth-child(2) {
+    border-radius: 0 0 5px 5px;
+    padding: 0 16px;
+  }
+  .modal__block.ticket:last-child {
+    border-radius: 5px 5px 8px 8px;
+    border-left: 0;
+    border-top: 3px dashed #4B5563;
+  }
+  .modal__block-title {
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+  .modal__block-label {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .modal__block-value {
+    font-size: 13px;
+    line-height: 1.2;
+  }
+  .modal__delete-btn {
+    max-width: 150px;
+  }
 }
 @media screen and (max-width: 450px) {
   .modal__content {
@@ -77,11 +183,5 @@
   }
   .modal__block-content {
     grid-template-columns: repeat(1, 1fr);
-  }
-  .modal__title {
-    font-size: 20px;
-  }
-  .modal__block-title {
-    font-size: 18px;
   }
 }
