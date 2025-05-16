@@ -20,6 +20,7 @@ router.post('/',[
     .optional().isMongoId().withMessage('user має бути валідним ObjectId'),
 ], ticketController.createTicket);
 router.get('/', ticketController.getTickets);
+router.get('/:userId/', ticketController.getUserTickets);
 router.get('/:id', ticketController.getTicket);
 router.delete('/:id', ticketController.deleteTicket);
 router.get('/user-reserved-seats/:userId/:flightId', ticketController.getUserReservedSeats);

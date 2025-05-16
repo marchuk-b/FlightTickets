@@ -140,29 +140,44 @@ class flightController {
     }
 
     async reserveSeat(req, res) {
-        const flightId = req.params.id;
-        const { seatIds, user } = req.body;
-      
-        const flight = await Flight.findById(flightId).populate('seats');
-        if (!flight) return res.status(404).json({ message: 'Рейс не знайдено' });
-      
-        for (const seatId of seatIds) {
-            const seat = flight.seats.find(s => {
-                return s.seatId === seatId;
-            });
-            if (!seat) continue;
-        
-            if (seat.isReserved) {
-                return res.status(400).json({ message: `Місце ${seatId} уже заброньовано` });
-            }
-        
-            seat.isReserved = true;
-            seat.reservedBy = user.id;
-            await seat.save();
-        }
+        try {
+            const flightId = req.params.id;
+            const { reservedSeats, user } = req.body;
 
-        res.json({ message: "Місця заброньовані" });
+            console.log('reservedSeats: ', reservedSeats);
+
+            const flight = await Flight.findById(flightId).populate('seats');
+            if (!flight) {
+                return res.status(404).json({ message: 'Рейс не знайдено' });
+            }
+
+            for (const { seatId, seatClass } of reservedSeats) {
+                const seat = flight.seats.find(s =>
+                    s.seatId === seatId &&
+                    s.seatClass === seatClass
+                );
+
+                if (!seat) {
+                    return res.status(404).json({ message: `Місце ${seatId} не знайдено або не відповідає класу ${seatClass}` });
+                }
+
+                if (seat.isReserved) {
+                    return res.status(400).json({ message: `Місце ${seatId} уже заброньовано` });
+                }
+
+                seat.isReserved = true;
+                seat.reservedBy = user.id;
+                await seat.save();
+            }
+
+            res.json({ message: "Місця заброньовані успішно" });
+        } catch (error) {
+            console.error('Помилка при бронюванні місць:', error);
+            res.status(500).json({ message: "Сталася помилка під час бронювання" });
+        }
     }
+
+
     async getReservedSeats(req, res) {
         const { id } = req.params;
         const flight = await Flight.findById(id).populate('seats');
@@ -170,7 +185,10 @@ class flightController {
       
         const reservedSeats = flight.seats
         .filter(seat => seat.isReserved)
-        .map(seat => seat.seatId);
+        .map(seat => ({
+        seatId: seat.seatId,
+        seatClass: seat.seatClass,
+        }));
 
         res.json(reservedSeats);
     }

@@ -17,14 +17,14 @@ class authController {
         try {
             const errors = validationResult(req)
             if(!errors.isEmpty()) {
-                return res.status(400).json({message: 'Registration error', errors})
+                return res.status(400).json({message: 'Помилка реєстрації', errors})
             }
 
             const { username, password, email } = req.body;
             
             const candidate = await User.findOne({username})
             if(candidate) {
-                return res.status(400).json({message: 'User with this username already exists'})
+                return res.status(400).json({message: "Користувач з таким іменем уже існує"})
             }
 
             const hashedPasswd = await bcrypt.hash(password, 7);
@@ -32,10 +32,10 @@ class authController {
             const user = new User({username, email, password: hashedPasswd, roles: [userRole.value]})
             
             await user.save()
-            return res.status(201).json({message: 'User created successfully'})
+            return res.status(201).json({message: 'Користувач успішно створений'})
         } catch (error) {
             console.log(error)
-            res.status(400).json({message: 'Registration error'})
+            res.status(400).json({message: 'Помилка реєстрації'})
         }
     }
 
@@ -44,12 +44,12 @@ class authController {
             const { email, password } = req.body;
             const user = await User.findOne({email})
             if(!user) {
-                return res.status(400).json({message: 'User not found'})
+                return res.status(400).json({message: 'Користувача не знайдено'})
             }
 
             const validPassword = bcrypt.compareSync(password, user.password)
             if(!validPassword) {
-                return res.status(400).json({message: 'Invalid password'})
+                return res.status(400).json({message: 'Невірний пароль'})
             }
 
             const token = generateAccessToken(user._id, user.roles)
@@ -74,33 +74,35 @@ class authController {
     
     async logout(req, res) {
         try {
-            if (!req.cookies.token) {
-                return res.status(401).json({ message: "Unauthorized" });
-            }
+            // Поки що коментуванням вирішив проблему з токеном і user в LocalStorage
+            // час від часу просто треба поки перезаходити
+            // чомусь коли токен протухає, користувач не видаляється з LocalStorage
+            // if (!req.cookies.token) {
+            //     return res.status(401).json({ message: "Не авторизований" });
+            // }
             res.clearCookie("token", {
                 httpOnly: true,
                 secure: false,
                 sameSite: "Lax"
             });
-            return res.json({message: 'Logout successful'})
+            return res.json({message: 'Успішний вихід'})
         } catch (error) {
             console.log(error)
-            res.status(400).json({message: 'Logout error'})
+            res.status(400).json({message: 'Помилка виходу'})
         }
     }
 
     async getCurrentUser(req, res) {
         const token = req.cookies.token;
-        if (!token) return res.status(401).json({ message: "Unauthorized" });
+        if (!token) return res.status(401).json({ message: "Не авторизований" });
 
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
             res.json({ user: decoded });
         } catch {
-            res.status(401).json({ message: "Invalid token" });
+            res.status(401).json({ message: "Невірний токен" });
         }
     }
-
 }
 
 module.exports = new authController();
