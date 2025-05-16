@@ -1,0 +1,28 @@
+.about {
+    max-width: 1150px;
+    margin: 32px auto;
+    padding: 24px;
+    background-color: #fff;
+    color: #111827;
+}
+
+.about__title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 32px;
+}
+
+.about__mini-title {
+    font-size: 18px;
+}
+
+.about__text {
+    margin: 10px 0;
+    font-weight: 400;
+    font-size: 15px;
+}
+
+hr {
+    margin: 20px 30px;
+}
+
