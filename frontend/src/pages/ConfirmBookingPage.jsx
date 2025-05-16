@@ -53,14 +53,19 @@ export const ConfirmBookingPage = () => {
             email,
             tel,
             flight: flightId,
-            reservedSeats: reservedSeats.map(s => s.seatId),
-            seatClasses: reservedClasses,
-            price: reservedSeats.length * (reservedClasses[0] === 'business' ? flight.price + 500 : flight.price) 
+            reservedSeats: reservedSeats,
+            price: reservedSeats.reduce((sum, seat) => {
+                const seatPrice = seat.seatClass === 'business' ? flight.price + 500 : flight.price;
+                return sum + seatPrice;
+            }, 0)
         };
     
         try {
             await API.post('/tickets/', ticketData);
-            await API.patch(`/flights/${flightId}/seats`, {seatIds: selectedSeats.map(s => s.seatId), user: user});
+            await API.patch(`/flights/${flightId}/seats`, {
+                reservedSeats: selectedSeats,
+                user: user
+            });
             toast.success('Успішно заброньовано!');
             navigate('/profile');
         } catch (error) {

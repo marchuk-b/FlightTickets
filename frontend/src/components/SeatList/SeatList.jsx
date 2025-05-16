@@ -43,14 +43,14 @@ export const SeatList = ({
             <div
               key={`seat-${rowNumber}-${seat.seatId}`}
               className={`seatlist__seats__item ${
-                reservedSeats.includes(seat.seatId)
+                reservedSeats.some(s => s.seatId === seat.seatId && s.seatClass === seat.seatClass)
                   ? 'unavailable'
-                  : selectedSeats.some(s => s.seatId === seat.seatId)
+                  : selectedSeats.some(s => s.seatId === seat.seatId && s.seatClass === seat.seatClass)
                   ? 'selected'
                   : 'available'
               }`}
               onClick={() => {
-                if (!reservedSeats.includes(seat.seatId)) {
+                if (!reservedSeats.some(s => s.seatId === seat.seatId && s.seatClass === seat.seatClass)) {
                   onSeatClick(seat);
                 }
               }}
