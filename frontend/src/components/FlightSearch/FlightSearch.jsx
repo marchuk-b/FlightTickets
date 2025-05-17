@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './FlightSearch.css';
 import API from '../../api/axios';
+import { toast } from 'react-toastify'
 
 const cities = [
   { id: 1, name: 'Київ' },
@@ -30,6 +31,14 @@ export const FlightSearch = ({ onSearchResults }) => {
   };
 
   const handleSearch = async () => {
+     if (!from || !to || !departure || (roundTrip && !returnDate)) {
+      return toast.warn('Будь ласка, заповніть усі поля перед пошуком');
+    }
+
+    if (from === to) {
+      return toast.warn('Місто відправлення та призначення не можуть бути однаковими');
+    }
+
     try {
         const response = await API.get('/flights/search', {
             params: {
@@ -42,7 +51,10 @@ export const FlightSearch = ({ onSearchResults }) => {
         });
 
         console.log('Знайдено рейсів:', response.data);
-        onSearchResults(response.data);
+        onSearchResults({
+          outboundFlights: response.data.outboundFlights || response.data || [],
+          returnFlights: response.data.returnFlights || [],
+        });
     } catch (error) {
         console.error('Помилка під час пошуку:', error);
         onSearchResults([])

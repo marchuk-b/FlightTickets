@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import logo from '../../../assets/logo.png';
@@ -8,6 +8,18 @@ const Header = () => {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const { user, logout, loading } = useAuth();
   const isAuthenticated = useMemo(() => !!user, [user]);
+
+  useEffect(() => {
+    if (isBurgerOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isBurgerOpen]);
 
   const toggleBurgerMenu = () => {
       setIsBurgerOpen(!isBurgerOpen);
@@ -36,13 +48,14 @@ const Header = () => {
 
               <div className="header__btns">
                 {!loading && !isAuthenticated && (
-                  <button className="header__btn">
-                    <Link to="/login" className="header__btn-link" onClick={handleNavLinkClick}>Увійти</Link>
-                  </button>
+                  <Link to="/login" className="header__btn header__btn-link" onClick={handleNavLinkClick}>Увійти</Link>
                 )}
                 {!loading && isAuthenticated && (
-                  <button className="header__btn" onClick={logout}>
-                    <span className="header__btn-link" onClick={handleNavLinkClick}>Вийти</span>
+                  <button className="header__btn" onClick={() => {
+                    logout();
+                    handleNavLinkClick();
+                  }}>
+                    Вийти
                   </button>
                 )}
               </div>
