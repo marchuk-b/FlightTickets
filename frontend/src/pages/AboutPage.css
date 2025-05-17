@@ -1,28 +1,81 @@
-.about {
-    max-width: 1150px;
+.aboutpage {
     margin: 32px auto;
-    padding: 24px;
+}
+.aboutpage__content {
     background-color: #fff;
+    padding: 32px;
     color: #111827;
 }
 
-.about__title {
+.aboutpage__title {
     font-size: 24px;
     font-weight: 600;
     line-height: 32px;
+    margin-bottom: 16px;
 }
 
-.about__mini-title {
+.aboutpage__mini-title {
     font-size: 18px;
+    font-weight: 500;
+    line-height: 28px;
+    margin-top: 24px;
+    margin-bottom: 12px;
 }
 
-.about__text {
+.aboutpage__text {
     margin: 10px 0;
+    font-size: 16px;
     font-weight: 400;
-    font-size: 15px;
+    line-height: 24px;
+    color: #374151;
 }
 
-hr {
-    margin: 20px 30px;
+.aboutpage__text.end {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 32px;
 }
 
+.aboutpage__list {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.aboutpage__list li {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #374151;
+}
+
+.aboutpage__list li strong {
+    color: #111827;
+}
+
+.aboutpage__hr {
+    margin: 24px 0;
+    border: none;
+    border-top: 1px solid #E5E7EB;
+}
+
+@media screen and (max-width: 650px) {
+    .aboutpage__content {
+        padding: 20px;
+    }
+
+    .aboutpage__title {
+        font-size: 22px;
+    }
+
+    .aboutpage__mini-title {
+        font-size: 16px;
+    }
+
+    .aboutpage__text,
+    .aboutpage__list li {
+        font-size: 15px;
+    }
+
+    .aboutpage__text.end {
+        font-size: 16px;
+    }
+}

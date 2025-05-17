@@ -30,6 +30,7 @@
   max-width: 100px;
   width: 100%;
   cursor: pointer;
+  transition: all 0.2s;
 }
 .flightspage__sort-input:focus {
   outline: none;

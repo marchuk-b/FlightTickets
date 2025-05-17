@@ -35,11 +35,11 @@
     padding: 10px 12px;
     height: 44px;
     cursor: pointer;
+    transition: all 0.2s;
 }
 .edit__input:focus {
     outline: none;
-    border: 1px solid #1B9AF5;
-    box-shadow: 0 0 0 3px rgba(27, 154, 245, 0.3);
+    border: 2px solid #1B9AF5;
 }
 .edit__btn {
     justify-self: end;

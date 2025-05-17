@@ -14,6 +14,7 @@ import { ConfirmBookingPage } from './pages/ConfirmBookingPage';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               <Route path="/registration" element={<RegistrationPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/contacts" element={<ContactPage />} />
               <Route path="/" element={
                 <ProtectedRoute>
                   <FlightsPage />
