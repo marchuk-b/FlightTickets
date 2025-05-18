@@ -23,8 +23,8 @@ export const LoginPage = () => {
   }
 
   const fields = [
-    { name: 'email', label: "Email", type: 'email', required: true },
-    { name: 'password', label: "Пароль", type: 'password', required: true }
+    { name: 'email', label: "Email", type: 'email', required: true, autoComplete: 'username' },
+    { name: 'password', label: "Пароль", type: 'password', required: true, autoComplete: 'current-password' }
   ]
 
   return (

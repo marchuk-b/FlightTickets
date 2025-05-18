@@ -24,8 +24,8 @@ export const RegistrationPage = () => {
 
   const fields = [
     { name: 'username', label: "Ім'я користувача", type: 'text', required: true },
-    { name: 'email', label: "Email", type: 'email', required: true },
-    { name: 'password', label: "Пароль", type: 'password', required: true },
+    { name: 'email', label: "Email", type: 'email', required: true, autoComplete: 'email' },
+    { name: 'password', label: "Пароль", type: 'password', required: true, autoComplete: 'new-password' },
     { name: 'confirmPassword', label: "Підтвердження паролю", type: 'password', required: true },
     { name: 'agree', label: (
       <>

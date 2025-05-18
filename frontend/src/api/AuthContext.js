@@ -4,30 +4,34 @@ import API from './axios.js';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // 👈
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem('user');
+    return stored ? JSON.parse(stored) : null;
+  });
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setLoading(false);
-    } else {
-      fetchUser();
-    }
-  }, []);
+    // Перевіримо лише 1 раз при завантаженні
+    const fetchUser = async () => {
+      try {
+        const res = await API.get('/auth/me');
+        if (res.data?.user) {
+          setUser(res.data.user);
+          localStorage.setItem('user', JSON.stringify(res.data.user));
+        } else {
+          throw new Error('Недійсна відповідь');
+        }
+      } catch (error) {
+        setUser(null);
+        localStorage.removeItem('user');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchUser = async () => {
-    try {
-      const res = await API.get('/auth/me');
-      setUser(res.data);
-      localStorage.setItem('user', JSON.stringify(res.data));
-    } catch (error) {
-      setUser(null);
-    } finally {
-      setLoading(false); // 👈
-    }
-  };
+    fetchUser();
+  }, []);
 
   const login = (userData) => {
     setUser(userData);
@@ -35,14 +39,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await API.post('/auth/logout');
+    try {
+      await API.post('/auth/logout');
+    } catch (e) {
+      // Можна проігнорувати
+    }
     setUser(null);
     localStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
-      {children}
+    <AuthContext.Provider value={{ user, setUser, loading, login, logout }}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 };

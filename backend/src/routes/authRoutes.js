@@ -15,6 +15,6 @@ router.post('/login', [
     check('password', 'Password cannot be empty').notEmpty()
 ], controller.login);
 router.post('/logout', controller.logout);
-router.get('/me', roleMiddleware(['ADMIN']), controller.getCurrentUser);
+router.get('/me', controller.getCurrentUser);
 
 module.exports = router;

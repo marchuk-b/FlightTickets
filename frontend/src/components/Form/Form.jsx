@@ -33,6 +33,7 @@ export const Form = ({ title, fields, onSubmit, btnTitle, bottomText, bottomLink
                 name={field.name}
                 required={field.required}
                 onChange={handleChange}
+                autoComplete={field.autoComplete || 'off'}
               />
             </div>
           ))}
