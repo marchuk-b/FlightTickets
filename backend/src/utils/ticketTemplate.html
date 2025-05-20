@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <title>Квиток</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f3f4f6;
+    }
+
+    .ticket__content {
+      background-color: transparent;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .ticket__inner {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .ticket__block{
+      padding: 24px;
+      background-color: #fff;
+      font-size: 14px;
+    }
+
+    .ticket__block:first-child {
+      border-radius: 8px 0 0 8px;
+      margin-right: -1px;
+    }
+
+    .ticket__block:nth-child(2) {
+      border-radius: 0 5px 5px 0;
+    }
+
+    .ticket__block:last-child {
+      border-radius: 5px 8px 8px 5px;
+      border-left: 3px dashed #4B5563;
+    }
+
+    .ticket__block-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .ticket__block-row {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 10px;
+    }
+
+    .ticket__block-label {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 2px;
+    }
+
+    .ticket__block-value {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="ticket__content">
+    <div class="ticket__inner">
+      <div class="ticket__block">
+        <div class="ticket__block-title">Пасажир:</div>
+        <div class="ticket__block-row">
+          <div class="ticket__block-label">Прізвище та ім'я</div>
+          <div class="ticket__block-value">{{surName}}<br />{{name}}</div>
+        </div>
+      </div>
+
+      <div class="ticket__block">
+        <div class="ticket__block-title">Місця:</div>
+        <div class="ticket__block-row">
+          <div class="ticket__block-label">Заброньовано</div>
+          <div class="ticket__block-value">{{reservedSeats}}</div>
+        </div>
+        <div class="ticket__block-row">
+          <div class="ticket__block-label">Клас</div>
+          <div class="ticket__block-value">{{seatClass}}</div>
+        </div>
+        <div class="ticket__block-row">
+          <div class="ticket__block-label">Ціна</div>
+          <div class="ticket__block-value">{{price}} UAH</div>
+        </div>
+      </div>
+
+      <div class="ticket__block">
+        <div class="ticket__block-title">Рейс {{flightName}}</div>
+        <div class="ticket__block-row">
+          <div class="ticket__block-label">Напрямок</div>
+          <div class="ticket__block-value">{{from}} - {{to}}</div>
+        </div>
+        <div class="ticket__block-row">
+          <div class="ticket__block-label">Виліт</div>
+          <div class="ticket__block-value">{{departureDate}} {{departureTime}}</div>
+        </div>
+        <div class="ticket__block-row">
+          <div class="ticket__block-label">Приліт</div>
+          <div class="ticket__block-value">{{arrivalDate}} {{arrivalTime}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

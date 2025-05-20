@@ -62,6 +62,8 @@ export const TicketCard = ({ ticketInfo, onDelete }) => {
           error: 'Помилка під час оплати',
         }
       );
+      await API.get(`/tickets/pdf/${ticketInfo._id}`);
+      toast.success('Квиток завантажено')
 
       setOpen(false);
     } catch (error) {

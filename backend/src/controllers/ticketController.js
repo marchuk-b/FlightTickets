@@ -3,6 +3,7 @@ const Seat = require('../models/Seat');
 const Flight = require('../models/Flight');
 const User = require('../models/User');
 const { validationResult } = require('express-validator');
+const { generatePDF } = require('../utils/generatePDF');
 
 class ticketController {
   async createTicket(req, res) {
@@ -118,6 +119,48 @@ class ticketController {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Помилка при отриманні зарезервованих місць' });
+    }
+  }
+
+  
+  async saveTicketInPDF(req, res) {
+    const { ticketId } = req.params;
+
+    try {
+      const ticket = await Ticket.findById(ticketId);
+      if (!ticket) {
+        return res.status(404).json({ message: 'Квиток не знайдено' });
+      }
+
+      const flight = await Flight.findById(ticket.flight);
+      if (!flight) {
+        return res.status(404).json({ message: 'Рейс не знайдено' });
+      }
+
+      const user = await User.findById(ticket.user);
+      if (!user) {
+        return res.status(404).json({ message: 'Користувача не знайдено' });
+      }
+
+      const reservedSeats = ticket.reservedSeats.map(seat => ({
+        seatId: seat.seatId,
+        seatClass: seat.seatClass
+      }));
+
+      const ticketInfo = {
+        surName: ticket.surName,
+        name: ticket.name,
+        reservedSeats,
+        price: ticket.price
+      };
+
+      await generatePDF(ticketInfo, flight);
+
+      res.status(200).json({ message: 'PDF-квиток успішно згенеровано' });
+
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Помилка під час генерації PDF-квитка', error: error.message });
     }
   }
   
