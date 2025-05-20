@@ -15,12 +15,11 @@ export const FlightCard = ({flightInfo}) => {
   }[flightInfo.status];
 
   const formatDate = (isoDate) => {
-    const date = new Date(isoDate)
-    return new Intl.DateTimeFormat('uk-UA', {
-      day: 'numeric',
-      month: 'long',
-    }).format(date)
-  }
+        if (!isoDate) return "Невідома дата";
+        const date = new Date(isoDate);
+        if (isNaN(date.getTime())) return "Невідома дата";
+        return new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long' }).format(date);
+    };
 
   return (
     <div className="flightcard" onClick={() => setOpen(true)}>

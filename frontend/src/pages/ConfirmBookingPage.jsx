@@ -61,11 +61,11 @@ export const ConfirmBookingPage = () => {
         };
     
         try {
-            await API.post('/tickets/', ticketData);
             await API.patch(`/flights/${flightId}/seats`, {
                 reservedSeats: selectedSeats,
                 user: user
             });
+            await API.post('/tickets/', ticketData);
             toast.success('Успішно заброньовано!');
             navigate('/profile');
         } catch (error) {
@@ -77,6 +77,13 @@ export const ConfirmBookingPage = () => {
     const goBack = async () => {
         navigate(`/booking/${flightId}`, { state: { selectedSeats }})
     }
+
+    const formatDate = (isoDate) => {
+        if (!isoDate) return "Невідома дата";
+        const date = new Date(isoDate);
+        if (isNaN(date.getTime())) return "Невідома дата";
+        return new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long' }).format(date);
+    };
 
 
     return (
@@ -97,7 +104,11 @@ export const ConfirmBookingPage = () => {
                             </div>
                             <div className="confirmpage__info-block-item">
                                 <div className="confirmpage__info-block-item__label">Дата:</div>
-                                <div className="confirmpage__info-block-item__info">{flight.departureDate}-{flight.arrivalDate}</div>
+                                <div className="confirmpage__info-block-item__info">
+                                    {formatDate(flight.departureDate) === formatDate(flight.arrivalDate)
+                                    ? formatDate(flight.departureDate)
+                                    : formatDate(flight.departureDate) - formatDate(flight.arrivalDate)}
+                                </div>
                             </div>
                             <div className="confirmpage__info-block-item">
                                 <div className="confirmpage__info-block-item__label">Відправлення:</div>

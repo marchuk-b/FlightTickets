@@ -100,9 +100,15 @@
   font-weight: 500;
   line-height: 20px;
 }
+.modal__btns {
+  display: flex;
+  flex-direction: column;
+  max-width: 184px;
+  gap: 5px;
+  margin: 10px 0 0 auto;
+}
 .modal__delete-btn {
   display: block;
-  margin: 10px 0 0 auto;
   max-width: 184px;
   width: 100%;
   padding: 5px 0;
@@ -173,7 +179,7 @@
     font-size: 13px;
     line-height: 1.2;
   }
-  .modal__delete-btn {
+  .modal__btns {
     max-width: 150px;
   }
 }

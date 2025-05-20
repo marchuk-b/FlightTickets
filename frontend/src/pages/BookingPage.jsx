@@ -79,13 +79,11 @@ export const BookingPage = () => {
     };
 
     const formatDate = (isoDate) => {
-        const date = new Date(isoDate)
-        return new Intl.DateTimeFormat('uk-UA', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
-        }).format(date)
-      }
+        if (!isoDate) return "Невідома дата";
+        const date = new Date(isoDate);
+        if (isNaN(date.getTime())) return "Невідома дата";
+        return new Intl.DateTimeFormat('uk-UA', { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+    };
 
     const economConfig = {
         planeType: plane.name.toLowerCase().split(" ")[0],

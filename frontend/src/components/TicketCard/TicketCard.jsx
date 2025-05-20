@@ -10,6 +10,11 @@ export const TicketCard = ({ ticketInfo, onDelete }) => {
   const [flight, setFlight] = useState(null)
   const [open, setOpen] = useState(false);
 
+  const statusClass = {
+    "Оплачено": "ticketcard__ticket-status--paid",
+    "Очікує оплати": "ticketcard__ticket-status--not-paid",
+  }[ticketInfo.status];
+
   useEffect(() => {
     const fetchFlight = async () => {
       try {
@@ -47,6 +52,24 @@ export const TicketCard = ({ ticketInfo, onDelete }) => {
     }
   }
 
+  const payTicket = async () => {
+    try {
+      await toast.promise(
+        new Promise((resolve) => setTimeout(resolve, 2000)),
+        {
+          pending: 'Оплата обробляється...',
+          success: 'Оплата завершена!',
+          error: 'Помилка під час оплати',
+        }
+      );
+
+      setOpen(false);
+    } catch (error) {
+      console.error(error)
+      toast.error('Не вдалося оплатити квиток')
+    }
+  }
+
   return (
     <div className="ticketcard" onClick={() => setOpen(true)}>
       {loading || !flight ? (
@@ -58,8 +81,11 @@ export const TicketCard = ({ ticketInfo, onDelete }) => {
               <div className="ticketcard__flight-name">Рейс {flight.flightName}</div>
               <div className="ticketcard__flight-direction">{flight.direction.from} → {flight.direction.to}</div>
             </div>
-            <div className="ticketcard__price">
-              <div className="ticketcard__price-value">{ticketInfo.price} UAH</div>
+            <div className="ticketcard__payment-info">
+              <div className={`ticketcard__ticket-status ${statusClass}`}>
+                {ticketInfo.status}
+              </div>
+              {/* <div className="ticketcard__price-value">{ticketInfo.price} UAH</div> */}
             </div>
           </div>
 
@@ -138,9 +164,14 @@ export const TicketCard = ({ ticketInfo, onDelete }) => {
               </div>
             </div>
           </div>
-          <button className="modal__delete-btn" onClick={deleteTicket}>
-            Скасувати квиток
-          </button>
+          <div className="modal__btns">
+            <button className="modal__delete-btn" onClick={payTicket}>
+              Оплатити
+            </button>
+            <button className="modal__delete-btn" onClick={deleteTicket}>
+              Скасувати квиток
+            </button>
+          </div>
         </div>
       </Modal>
     </div>
