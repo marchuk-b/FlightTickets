@@ -15,6 +15,7 @@ const cities = [
   { id: 9, name: 'Стамбул' },
   { id: 10, name: 'Варшава' },
   { id: 11, name: 'Прага' },
+  { id: 12, name: 'Франкфурт' },
 ];
 
 export const FlightSearch = ({ onSearchResults }) => {
@@ -31,8 +32,8 @@ export const FlightSearch = ({ onSearchResults }) => {
   };
 
   const handleSearch = async () => {
-     if (!from || !to || !departure || (roundTrip && !returnDate)) {
-      return toast.warn('Будь ласка, заповніть усі поля перед пошуком');
+    if (!from || !to) {
+      return toast.warn('Будь ласка, заповніть поля для напрямку перед пошуком');
     }
 
     if (from === to) {
@@ -40,26 +41,31 @@ export const FlightSearch = ({ onSearchResults }) => {
     }
 
     try {
-        const response = await API.get('/flights/search', {
-            params: {
-                from,
-                to,
-                departure: formatDate(departure),
-                returnDate: roundTrip ? formatDate(returnDate) : undefined,
-                roundTrip: roundTrip.toString(),
-            },
-        });
+      const response = await API.get('/flights/search', {
+        params: {
+            from,
+            to,
+            departure: formatDate(departure),
+            returnDate: roundTrip ? formatDate(returnDate) : undefined,
+            roundTrip: roundTrip.toString(),
+        },
+      });
 
-        console.log('Знайдено рейсів:', response.data);
-        onSearchResults({
-          outboundFlights: response.data.outboundFlights || response.data || [],
-          returnFlights: response.data.returnFlights || [],
-        });
+      onSearchResults({
+        outboundFlights: Array.isArray(response.data.outboundFlights)
+          ? response.data.outboundFlights
+          : Array.isArray(response.data)
+          ? response.data
+          : [],
+        returnFlights: Array.isArray(response.data.returnFlights)
+          ? response.data.returnFlights
+          : [],
+      });
     } catch (error) {
         console.error('Помилка під час пошуку:', error);
         onSearchResults([])
     }
-};
+  };
 
   return (
     <div className="container">

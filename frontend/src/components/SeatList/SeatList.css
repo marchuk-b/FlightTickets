@@ -9,6 +9,8 @@
     border: 5px solid #ccc;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
+
+
 .seatlist.airbus {
     width: 520px;
     margin: 0 auto;
@@ -17,17 +19,29 @@
     width: 420px;
     margin: 0 auto;
 }
+.seatlist.bombardier,
+.seatlist.embraer {
+    width: 420px;
+    margin: 0 auto;
+}
+
+
 .seatlist.business {
     padding: 200px 20px 20px;
     border-radius: 50% 50% 0 0;
+    margin: 0 auto;
 }
 .seatlist.business.boeing {
     width: 420px;
-    margin: 0 auto;
 }
 .seatlist.business.airbus {
     width: 520px;
 }
+.seatlist.business.bombardier,
+.seatlist.business.embraer {
+    width: 420px;
+}
+
 .seatlist__title {
     font-size: 14px;
     font-weight: 500;
@@ -90,12 +104,19 @@
     .seatlist.business {
         padding: 160px 20px 20px;
     }
+
     .seatlist.airbus {
         width: 420px;
     }
     .seatlist.boeing {
         width: 320px;
     }
+    .seatlist.bombardier,
+    .seatlist.embraer {
+        width: 250px;
+    }
+
+
     .seatlist.business.boeing {
         width: 320px;
     }
@@ -105,6 +126,12 @@
     .seatlist__seats__aisle {
         width: 20px;
     }
+    .seatlist.business.bombardier,
+    .seatlist.business.embraer {
+        width: 250px;
+    }
+
+
     .seatlist.business.boeing .seatlist__seats__aisle {
         width: 40px;
     }
@@ -127,6 +154,11 @@
     .seatlist.boeing {
         width: 250px;
     }
+    .seatlist.bombardier,
+    .seatlist.embraer {
+        width: 220px;
+    }
+
     .seatlist.business.boeing {
         width: 250px;
     }
@@ -134,6 +166,11 @@
         width: 300px;
         padding-top: 100px;
     }
+    .seatlist.business.bombardier,
+    .seatlist.business.embraer {
+        width: 220px;
+    }
+
     .seatlist__seats__aisle {
         width: 10px;
     }

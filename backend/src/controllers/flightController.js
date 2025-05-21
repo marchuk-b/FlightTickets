@@ -206,20 +206,24 @@ class flightController {
 
     async searchFlights(req, res) {
         try {
-            const { from, to, departure, roundTrip } = req.query;
+            const { from, to, departure, roundTrip, returnDate } = req.query;
 
-            const formattedDeparture = departure.trim();
+            const formattedDeparture = departure?.trim();
+            const formattedReturn = returnDate?.trim();
+
+            const buildQuery = (from, to, date) => {
+                const query = {
+                    direction: { from, to }
+                };
+                if (date) {
+                    query.departureDate = date;
+                };
+                return query;
+            };
 
             if (roundTrip === 'true') {
-                const outboundQuery = {
-                    direction: { from, to },
-                    departureDate: formattedDeparture
-                };
-
-                const returnQuery = {
-                    direction: { from: to, to: from },
-                    departureDate: formattedDeparture // або інша дата, якщо буде returnDate
-                };
+                const outboundQuery = buildQuery(from, to, formattedDeparture);
+                const returnQuery = buildQuery(to, from, formattedReturn || formattedDeparture);
 
                 const [outboundFlights, returnFlights] = await Promise.all([
                     Flight.find(outboundQuery),
@@ -228,11 +232,7 @@ class flightController {
 
                 res.json({ outboundFlights, returnFlights });
             } else {
-                const query = {
-                    direction: { from, to },
-                    departureDate: formattedDeparture
-                };
-
+                const query = buildQuery(from, to, formattedDeparture);
                 const flights = await Flight.find(query);
                 res.json(flights);
             }
