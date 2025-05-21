@@ -90,7 +90,6 @@ class userController {
                 return res.status(404).json({ message: 'Роль не знайдено' });
             }
     
-            // Перевірити, чи роль уже є
             if (user.roles.includes(userRole.value)) {
                 return res.status(400).json({ message: 'Користувач уже має таку роль' });
             }

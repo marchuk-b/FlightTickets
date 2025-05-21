@@ -6,7 +6,7 @@ export const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>; // або можна поставити спіннер або просто `null`
+    return <div>Завантаження...</div>;
   }
 
   if (!user) {

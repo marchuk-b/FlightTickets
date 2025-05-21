@@ -46,6 +46,11 @@ export const ConfirmBookingPage = () => {
     const reservedClasses = selectedSeats.map(s => s.seatClass);
 
     const createTicket = async () => {
+        if (!name || !surName || !email || !tel) {
+            toast.error('Заповніть всі поля');
+            return;
+        }
+
         const ticketData = {
             user: userId,
             name,

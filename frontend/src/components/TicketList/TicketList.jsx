@@ -31,7 +31,7 @@ export const TicketList = () => {
     return (
         <div className="ticketlist">
             {loading ? (
-                <div className="loader">Завантаження...</div> // Лоудер або спінер
+                <div className="loader">Завантаження...</div>
             ) : (
                 tickets.map((ticket, index) => {
                 return <TicketCard 

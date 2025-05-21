@@ -81,7 +81,6 @@ class ticketController {
 
       if (ticket.reservedSeats && ticket.reservedSeats.length > 0) {
         for (const seat of ticket.reservedSeats) {
-          // Оновлюємо кожне місце індивідуально, враховуючи seatId і seatClass
           await Seat.updateOne(
             { seatId: seat.seatId, seatClass: seat.seatClass, isReserved: true },
             { $set: { reservedBy: null, isReserved: false } }

@@ -74,12 +74,6 @@ class authController {
     
     async logout(req, res) {
         try {
-            // Поки що коментуванням вирішив проблему з токеном і user в LocalStorage
-            // час від часу просто треба поки перезаходити
-            // чомусь коли токен протухає, користувач не видаляється з LocalStorage
-            // if (!req.cookies.token) {
-            //     return res.status(401).json({ message: "Не авторизований" });
-            // }
             res.clearCookie("token", {
                 httpOnly: true,
                 secure: false,

@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Перевіримо лише 1 раз при завантаженні
     const fetchUser = async () => {
       try {
         const res = await API.get('/auth/me');
