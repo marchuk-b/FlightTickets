@@ -163,7 +163,28 @@ class ticketController {
       return res.status(500).json({ message: 'Помилка під час генерації PDF-квитка', error: error.message });
     }
   }
-  
+
+  async payTicket(req, res) {
+    const { id } = req.params;
+
+    try {
+      const ticket = await Ticket.findById(id);
+      if (!ticket) {
+        return res.status(404).json({ message: 'Квиток не знайдено' });
+      }
+      const { ticketStatus } = req.body;
+      if (ticketStatus === 'Очікує оплати') {
+        ticket.status = 'Оплачено';
+        await ticket.save();
+        return res.status(200).json({ message: 'Квиток успішно оплачено' });
+      } else {
+        return res.status(400).json({ message: 'Невірний статус квитка' });
+      }
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Помилка під час оплати квитка', error: error.message });
+    }
+  }
 }
 
 module.exports = new ticketController();

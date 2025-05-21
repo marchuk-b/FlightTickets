@@ -14,7 +14,7 @@ const TicketSchema = new Schema({
     price: { type: Number, required: true },
     status: {
         type: String,
-        enum: ['Активний', 'Скасований', 'Очікує оплати'],
+        enum: ['Оплачено', 'Очікує оплати'],
         default: 'Очікує оплати'
     },
     createdAt: { type: Date, default: Date.now }

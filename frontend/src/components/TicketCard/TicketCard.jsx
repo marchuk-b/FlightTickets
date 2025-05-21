@@ -9,11 +9,12 @@ export const TicketCard = ({ ticketInfo, onDelete }) => {
   const [loading, setLoading] = useState(true)
   const [flight, setFlight] = useState(null)
   const [open, setOpen] = useState(false);
+  const [ticket, setTicket] = useState(ticketInfo)
 
   const statusClass = {
     "Оплачено": "ticketcard__ticket-status--paid",
     "Очікує оплати": "ticketcard__ticket-status--not-paid",
-  }[ticketInfo.status];
+  }[ticket.status];
 
   useEffect(() => {
     const fetchFlight = async () => {
@@ -52,25 +53,44 @@ export const TicketCard = ({ ticketInfo, onDelete }) => {
     }
   }
 
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
   const payTicket = async () => {
     try {
-      await toast.promise(
-        new Promise((resolve) => setTimeout(resolve, 2000)),
-        {
-          pending: 'Оплата обробляється...',
-          success: 'Оплата завершена!',
-          error: 'Помилка під час оплати',
-        }
-      );
-      await API.get(`/tickets/pdf/${ticketInfo._id}`);
-      toast.success('Квиток завантажено')
+      if (ticket.status === 'Оплачено') {
+        toast.info('Квиток вже оплачено');
+        return;
+      }
 
-      setOpen(false);
+      if (ticket.status === 'Очікує оплати') {
+        const toastId = toast.loading('Оплата обробляється...');
+
+        await delay(1500);
+
+        await API.patch(`/tickets/${ticketInfo._id}`, { ticketStatus: ticketInfo.status });
+
+        setTicket(prev => ({ ...prev, status: 'Оплачено' }));
+        await API.get(`/tickets/pdf/${ticketInfo._id}`);
+        
+        toast.update(toastId, {
+          render: 'Оплата завершена!',
+          type: 'success',
+          isLoading: false,
+          autoClose: 3000,
+        });
+        
+        await delay(1000);
+
+        toast.success('Квиток завантажено');
+        setOpen(false);
+      }
+
     } catch (error) {
-      console.error(error)
-      toast.error('Не вдалося оплатити квиток')
+      console.error(error);
+      toast.error('Не вдалося оплатити квиток');
     }
-  }
+  };
+
 
   return (
     <div className="ticketcard" onClick={() => setOpen(true)}>
@@ -85,7 +105,7 @@ export const TicketCard = ({ ticketInfo, onDelete }) => {
             </div>
             <div className="ticketcard__payment-info">
               <div className={`ticketcard__ticket-status ${statusClass}`}>
-                {ticketInfo.status}
+                {ticket.status}
               </div>
               {/* <div className="ticketcard__price-value">{ticketInfo.price} UAH</div> */}
             </div>

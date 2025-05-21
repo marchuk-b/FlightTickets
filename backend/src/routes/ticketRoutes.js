@@ -25,5 +25,6 @@ router.get('/:id', ticketController.getTicket);
 router.delete('/:id', ticketController.deleteTicket);
 router.get('/user-reserved-seats/:userId/:flightId', ticketController.getUserReservedSeats);
 router.get('/pdf/:ticketId', ticketController.saveTicketInPDF);
+router.patch('/:id', ticketController.payTicket);
 
 module.exports = router;
